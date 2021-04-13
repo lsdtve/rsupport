@@ -12,9 +12,6 @@ public class MemberDto {
     private String spot;
     private String position;
 
-    public MemberDto(){
-
-    }
     public MemberDto(Member member) {
         this.name = member.getName();
         this.number = member.getNumber();

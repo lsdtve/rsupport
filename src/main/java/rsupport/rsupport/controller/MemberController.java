@@ -30,7 +30,7 @@ public class MemberController {
 
     @GetMapping(value = "/members")
     public List<MemberDto> GetMembers(SearchDto searchDto) {
-        System.out.println("search = " + searchDto);
+        memberService.Search(searchDto);
         return memberService.findAll();
     }
 
