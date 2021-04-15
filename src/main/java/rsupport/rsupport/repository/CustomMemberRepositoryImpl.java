@@ -6,6 +6,7 @@ import com.querydsl.jpa.JPQLQuery;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import rsupport.rsupport.Dto.SearchDto;
 import rsupport.rsupport.domain.Member;
+import rsupport.rsupport.domain.QTeam;
 
 import java.util.List;
 
@@ -20,6 +21,8 @@ public class CustomMemberRepositoryImpl extends QuerydslRepositorySupport implem
     @Override
     public List<Member> searchMembers(SearchDto searchDto) {
         JPQLQuery<Member> query = from(member)
+                .leftJoin(member.team, QTeam.team)
+                .fetchJoin()
                 .where(eqOriginalName(searchDto.getName()),
                         eqNumber(searchDto.getNumber()),
                         eqTeam(searchDto.getTeamName()),

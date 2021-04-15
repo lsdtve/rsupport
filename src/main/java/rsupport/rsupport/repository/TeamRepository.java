@@ -1,14 +1,17 @@
 
 package rsupport.rsupport.repository;
 
-import com.querydsl.core.annotations.QueryEntity;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.EntityGraph;
+import org.springframework.data.repository.CrudRepository;
 import rsupport.rsupport.domain.Team;
 
 import java.util.List;
 import java.util.Optional;
 
-public interface TeamRepository extends JpaRepository<Team, Long> {
+public interface TeamRepository extends CrudRepository<Team, Long> {
+
+    @EntityGraph(attributePaths = "members")
     List<Team> findAll();
+
     Optional<Team> findByName(String name);
 }

@@ -8,10 +8,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-import rsupport.rsupport.Dto.MemberCreateForm;
-import rsupport.rsupport.Dto.MemberDto;
-import rsupport.rsupport.Dto.SearchDto;
-import rsupport.rsupport.Dto.TeamCreateForm;
+import rsupport.rsupport.Dto.*;
 import rsupport.rsupport.domain.Member;
 import rsupport.rsupport.domain.Team;
 import rsupport.rsupport.repository.MemberRepository;
@@ -24,7 +21,9 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -215,4 +214,5 @@ public class MemberServiceTest {
         Assert.assertEquals(1, searchMembers.size());
         Assert.assertEquals(member.getPhone(), memberService.search(searchDto).get(0).getPhone());
     }
+
 }
