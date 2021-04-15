@@ -1,9 +1,17 @@
+
 package rsupport.rsupport.Dto;
 
-import lombok.Data;
-import rsupport.rsupport.domain.Team;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class TeamCreateForm {
     private String name;
+
+    @Builder
+    public TeamCreateForm(String name) {
+        this.name = name;
+    }
 }

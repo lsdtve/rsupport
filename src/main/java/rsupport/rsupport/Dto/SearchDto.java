@@ -1,8 +1,11 @@
+
 package rsupport.rsupport.Dto;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
-@Data
+@Getter
+@Setter
 public class SearchDto {
     private String teamName;
     private String name;

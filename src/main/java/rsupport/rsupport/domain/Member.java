@@ -1,3 +1,4 @@
+
 package rsupport.rsupport.domain;
 
 import lombok.AccessLevel;
@@ -11,10 +12,11 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
-    @Id @GeneratedValue
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "member_id")
     private Long id;
 
+    private String originalName;
     private String name;
     private int number;
     private String phone;
@@ -22,17 +24,19 @@ public class Member {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "team_id")
     private Team team;
-    private String spot;
+
+    private String grade;
+
     private String position;
 
     @Builder
-    public Member(Long id, String name, int number, String phone, Team team, String spot, String position) {
-        this.id = id;
+    public Member(String originalName, String name, int number, String phone, Team team, String grade, String position) {
+        this.originalName = originalName;
         this.name = name;
         this.number = number;
         this.phone = phone;
         this.team = team;
-        this.spot = spot;
+        this.grade = grade;
         this.position = position;
     }
 }

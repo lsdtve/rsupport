@@ -8,6 +8,7 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ChartResponse {
-    List<ChartTeamDto> data;
+public class ChartTeamDto {
+    private String teamName;
+    private List<ChartMemberDto> members;
 }

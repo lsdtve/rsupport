@@ -1,12 +1,13 @@
-package rsupport.rsupport.service;
 
+package rsupport.rsupport.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import rsupport.rsupport.Dto.MemberDto;
-import rsupport.rsupport.Dto.TeamDto;
+import rsupport.rsupport.Dto.ChartMemberDto;
+import rsupport.rsupport.Dto.ChartTeamDto;
 import rsupport.rsupport.Dto.TeamCreateForm;
 import rsupport.rsupport.domain.Member;
+import rsupport.rsupport.domain.Position;
 import rsupport.rsupport.domain.Team;
 import rsupport.rsupport.repository.MemberRepository;
 import rsupport.rsupport.repository.TeamRepository;
@@ -30,24 +31,35 @@ public class TeamService {
         return teamRepository.save(team);
     }
 
-    public List<TeamDto> findChart() {
-        List<TeamDto> result = new ArrayList<>();
+    public List<ChartTeamDto> findChart() {
+        List<ChartTeamDto> result = new ArrayList<>();
+
         List<Team> teamList = teamRepository.findAll().stream()
                 .sorted(Comparator.comparing(Team::getName))
                 .collect(Collectors.toList());
+
         teamList.forEach(team -> {
-            TeamDto teamDto = new TeamDto();
-            teamDto.setName(team.getName());
+            ChartTeamDto teamDto = new ChartTeamDto();
+            teamDto.setTeamName(team.getName());
             teamDto.setMembers(sortMembers(team.getMembers()));
             result.add(teamDto);
         });
         return result;
     }
 
-    public List<MemberDto> sortMembers(List<Member> members) {
-        return members.stream()
+    public List<ChartMemberDto> sortMembers(List<Member> members) {
+        List<ChartMemberDto> memberList = members.stream()
                 .sorted(Comparator.comparing(Member::getName))
-                .map(MemberDto::new)
+                .map(ChartMemberDto::new)
                 .collect(Collectors.toList());
+
+        for (int i = 0; i < members.size() ; i++) {
+            if (memberList.get(i).getPosition().equals("팀장")) {
+                memberList.add(0,memberList.remove(i));
+                break;
+            }
+        }
+
+        return memberList;
     }
 }

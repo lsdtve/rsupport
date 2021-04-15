@@ -1,3 +1,4 @@
+
 package rsupport.rsupport.config;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;

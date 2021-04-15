@@ -1,3 +1,4 @@
+
 package rsupport.rsupport.service;
 
 import lombok.RequiredArgsConstructor;
@@ -6,12 +7,11 @@ import org.springframework.transaction.annotation.Transactional;
 import rsupport.rsupport.Dto.MemberCreateForm;
 import rsupport.rsupport.Dto.MemberDto;
 import rsupport.rsupport.Dto.SearchDto;
+import rsupport.rsupport.domain.Grade;
 import rsupport.rsupport.domain.Member;
-import rsupport.rsupport.repository.MemberQueryRepository;
+import rsupport.rsupport.domain.Position;
 import rsupport.rsupport.repository.MemberRepository;
 
-import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -21,48 +21,33 @@ import java.util.stream.Collectors;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final MemberQueryRepository memberQueryRepository;
 
     @Transactional
     public Member save(MemberCreateForm form){
         Member member = Member.builder()
-                .name(DuplicateName(form.getName()))
+                .originalName(form.getName())
+                .name(duplicateName(form.getName()))
                 .number(form.getNumber())
                 .phone(form.getPhone())
                 .team(form.getTeam())
-                .spot(form.getSpot())
+                .grade(form.getGrade())
                 .position(form.getPosition())
                 .build();
         return memberRepository.save(member);
     }
 
-    public String DuplicateName(String name){
-        int cnt = 65;
-        String result = name;
-        while(memberRepository.existsByName(result)){
-            result = name + (cnt==65 ? "" : "("+(char) cnt+")");
-            cnt += 1;
+    public String duplicateName(String name){
+        char sameNameCount = memberRepository.countByOriginalName(name);
+
+        if (sameNameCount==0){
+            return name;
         }
-        return result;
+
+        return String.format("%s(%c)",name,sameNameCount+'A');
     }
 
-    public List<MemberDto> findAll() {
-        List<MemberDto> result = new ArrayList<>();
-        memberRepository.findAll().forEach(member -> {
-            MemberDto memberDto = new MemberDto(member);
-            result.add(memberDto);
-        });
-        return result;
-    }
-
-    public List<Member> Search(SearchDto searchDto) {
-        memberQueryRepository.search(searchDto);
-        return null;
-    }
-
-    public List<MemberDto> sortMembers(List<Member> members) {
-        return members.stream()
-                .sorted(Comparator.comparing(Member::getName))
+    public List<MemberDto> search(SearchDto searchDto) {
+        return memberRepository.searchMembers(searchDto).stream()
                 .map(MemberDto::new)
                 .collect(Collectors.toList());
     }
