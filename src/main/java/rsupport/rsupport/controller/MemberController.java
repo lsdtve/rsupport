@@ -11,6 +11,8 @@ import rsupport.rsupport.Dto.SearchDto;
 import rsupport.rsupport.constant.UrlConstants;
 import rsupport.rsupport.service.MemberService;
 
+import java.util.HashMap;
+
 @RestController
 @RequiredArgsConstructor
 public class MemberController {
@@ -21,9 +23,12 @@ public class MemberController {
     public ResponseEntity<ApiResponseMessage> GetMembers(SearchDto searchDto) {
         ApiResponseMessage message = new ApiResponseMessage();
         try {
+            HashMap<String, Object> data = new HashMap<>();
+            data.put("members", memberService.search(searchDto));
+
             message.setStatus("Success");
             message.setMessage("");
-            message.setData(memberService.search(searchDto));
+            message.setData(data);
         }catch (Exception e) {
             message.setStatus("Fail");
             message.setMessage("");

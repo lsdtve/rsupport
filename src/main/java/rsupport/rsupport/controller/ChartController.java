@@ -10,6 +10,8 @@ import rsupport.rsupport.Dto.ApiResponseMessage;
 import rsupport.rsupport.constant.UrlConstants;
 import rsupport.rsupport.service.TeamService;
 
+import java.util.HashMap;
+
 @RestController
 @RequiredArgsConstructor
 public class ChartController {
@@ -20,9 +22,12 @@ public class ChartController {
     public ResponseEntity<ApiResponseMessage> getChart() {
         ApiResponseMessage message = new ApiResponseMessage();
         try {
+            HashMap<String, Object> data = new HashMap<>();
+            data.put("teamList", teamService.findChart());
+
             message.setStatus("Success");
             message.setMessage("조직도");
-            message.setData(teamService.findChart());
+            message.setData(data);
 
         }catch (Exception e) {
 
