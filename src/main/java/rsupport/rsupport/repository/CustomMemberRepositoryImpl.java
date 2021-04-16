@@ -20,6 +20,7 @@ public class CustomMemberRepositoryImpl extends QuerydslRepositorySupport implem
 
     @Override
     public List<Member> searchMembers(SearchDto searchDto) {
+
         JPQLQuery<Member> query = from(member)
                 .leftJoin(member.team, QTeam.team)
                 .fetchJoin()

@@ -15,7 +15,7 @@ public interface TeamRepository extends CrudRepository<Team, Long> {
     List<Team> findAll();
 
     @EntityGraph(attributePaths = "members")
-    List<Team> findAll(Sort name);
+    List<Team> findAll(Sort sort);
 
     Optional<Team> findByName(String name);
 }

@@ -7,12 +7,10 @@ import org.springframework.stereotype.Service;
 import rsupport.rsupport.Dto.ChartMemberDto;
 import rsupport.rsupport.Dto.ChartTeamDto;
 import rsupport.rsupport.Dto.TeamCreateForm;
-import rsupport.rsupport.domain.Member;
 import rsupport.rsupport.domain.Team;
 import rsupport.rsupport.repository.TeamRepository;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,31 +29,24 @@ public class TeamService {
 
     public List<ChartTeamDto> findChart() {
         List<ChartTeamDto> result = new ArrayList<>();
+        Sort.Order Order;
 
-        List<Team> teamList = teamRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
+        List<Sort.Order> orders = new ArrayList<>();
+        orders.add(new Sort.Order(Sort.Direction.ASC, "name"));
+        orders.add(new Sort.Order(Sort.Direction.DESC,"members.position"));
+        orders.add(new Sort.Order(Sort.Direction.ASC,"members.name"));
+
+        List<Team> teamList = teamRepository.findAll(Sort.by(orders));
 
         teamList.forEach(team -> {
             ChartTeamDto teamDto = new ChartTeamDto();
             teamDto.setTeamName(team.getName());
-            teamDto.setMembers(sortMembers(team.getMembers()));
+            teamDto.setMembers(team.getMembers().stream()
+                    .map(ChartMemberDto::new)
+                    .collect(Collectors.toList())
+            );
             result.add(teamDto);
         });
         return result;
-    }
-
-    public List<ChartMemberDto> sortMembers(List<Member> members) {
-        List<ChartMemberDto> memberList = members.stream()
-                .sorted(Comparator.comparing(Member::getName))
-                .map(ChartMemberDto::new)
-                .collect(Collectors.toList());
-
-        for (int i = 0; i < members.size() ; i++) {
-            if (memberList.get(i).getPosition().equals("팀장")) {
-                memberList.add(0,memberList.remove(i));
-                break;
-            }
-        }
-
-        return memberList;
     }
 }

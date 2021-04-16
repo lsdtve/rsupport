@@ -12,7 +12,6 @@ import rsupport.rsupport.Dto.ChartMemberDto;
 import rsupport.rsupport.Dto.ChartTeamDto;
 import rsupport.rsupport.Dto.MemberCreateForm;
 import rsupport.rsupport.domain.Team;
-import rsupport.rsupport.repository.MemberRepository;
 import rsupport.rsupport.repository.TeamRepository;
 
 import javax.persistence.EntityManager;
@@ -26,7 +25,6 @@ import java.util.List;
 public class TeamServiceTest {
 
     @Autowired private MemberService memberService;
-    @Autowired private MemberRepository memberRepository;
     @Autowired private TeamService teamService;
     @Autowired private TeamRepository teamRepository;
 
@@ -63,20 +61,20 @@ public class TeamServiceTest {
         Team team = Team.builder().name("웹개발1팀").build();
         teamRepository.save(team);
 
-        memberService.save(MemberCreateForm.builder().name("나").team(team).position("팀장").build());
-
         memberService.save(MemberCreateForm.builder().name("사").team(team).position("팀원").build());
         memberService.save(MemberCreateForm.builder().name("가").team(team).position("팀원").build());
+        memberService.save(MemberCreateForm.builder().name("나").team(team).position("팀장").build());
         memberService.save(MemberCreateForm.builder().name("라").team(team).position("팀원").build());
 
         em.flush();
         em.clear();
 
         //when
-        List<ChartMemberDto> sortedMembers = teamService.sortMembers(memberRepository.findAll());
+        List<ChartTeamDto> findChart = teamService.findChart();
+        ChartMemberDto firstMember = findChart.get(0).getMembers().get(0);
 
         //then
-        Assert.assertEquals("팀장", sortedMembers.get(0).getPosition());
+        Assert.assertEquals("팀장", firstMember.getPosition());
      }
 
      @Test
@@ -101,11 +99,12 @@ public class TeamServiceTest {
          em.clear();
 
          //when
-         List<ChartMemberDto> sortedMembers = teamService.sortMembers(memberRepository.findAll());
+         List<ChartTeamDto> findChart = teamService.findChart();
+         List<ChartMemberDto> members = findChart.get(0).getMembers();
 
          //then
          for (int i = 0; i < memberNameList.length; i++) {
-             Assert.assertEquals(memberNameList[i], sortedMembers.get(i).getName());
+             Assert.assertEquals(memberNameList[i], members.get(i).getName());
          }
       }
 

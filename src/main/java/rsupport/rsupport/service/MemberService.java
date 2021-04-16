@@ -41,7 +41,7 @@ public class MemberService {
             return name;
         }
 
-        return String.format("%s(%c)",name,sameNameCount+'A');
+        return String.format("%s(%c)", name, sameNameCount+'A');
     }
 
     public List<MemberDto> search(SearchDto searchDto) {
