@@ -1,3 +1,4 @@
+
 package rsupport.rsupport.service;
 
 import org.junit.Assert;
@@ -5,10 +6,11 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-import rsupport.rsupport.Dto.*;
+import rsupport.rsupport.Dto.MemberCreateForm;
+import rsupport.rsupport.Dto.MemberDto;
+import rsupport.rsupport.Dto.SearchDto;
 import rsupport.rsupport.domain.Member;
 import rsupport.rsupport.domain.Team;
 import rsupport.rsupport.repository.MemberRepository;
@@ -16,14 +18,7 @@ import rsupport.rsupport.repository.TeamRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.InputStreamReader;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -32,187 +27,125 @@ public class MemberServiceTest {
 
     @Autowired private MemberService memberService;
     @Autowired private MemberRepository memberRepository;
-    @Autowired private TeamService teamService;
     @Autowired private TeamRepository teamRepository;
 
-    @Test
-    public void DbInit() throws Exception {
-        BufferedReader br = null;
-        ClassPathResource resource = new ClassPathResource("data/member.csv");
-        String line;
-        try {
-            Path path = Paths.get(resource.getURI());
-            br = new BufferedReader(new InputStreamReader(new FileInputStream(path.toString()), "UTF-8"));
-            while((line = br.readLine()) != null) {
-                String[] temp = line.replace(" ","").split(",");
+    @PersistenceContext
+    private EntityManager em;
 
-                String name = temp[1];
-                int number = Integer.parseInt(temp[2]);
-                String phone = temp[3];
-                String teamName = temp[4];
-                String grade = temp[5];
-                String position = (temp.length==7 ? temp[6].trim(): "팀원");
 
-                Team team = teamRepository.findByName(teamName).orElseGet(()-> {
-                    TeamCreateForm teamForm = TeamCreateForm.builder()
-                            .name(teamName)
-                            .build();
-                    return teamService.save(teamForm);
-                });
-
-                MemberCreateForm member = MemberCreateForm.builder()
-                        .name(name)
-                        .number(number)
-                        .phone(phone)
-                        .team(team)
-                        .grade(grade)
-                        .position(position)
-                        .build();
-                Member saveMember = memberService.save(member);
-                Assert.assertEquals(saveMember,memberRepository.findById(saveMember.getId()).get());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-    }
-    
     @Test
     public void 이름_중복_체크() throws Exception {
+        //given
+        Team team = Team.builder().name("웹개발1팀").build();
+        teamRepository.save(team);
 
-        String[] testName = new String[] {"","(B)","(C)","(D)","(E)"};
         String name = "홍길동";
+        String[] nameAddList = {"", "(B)", "(C)", "(D)","(E)"};
 
-        for (int i = 0; i < testName.length ; i++) {
-            MemberCreateForm form = MemberCreateForm.builder()
-                    .name(name)
-                    .grade("차장")
-                    .position("팀장")
-                    .build();
-            Member member =  memberService.save(form);
+        //when
+        for (int i = 0; i < nameAddList.length ; i++) {
+            Member member = memberService.save(MemberCreateForm.builder().name(name).build());
 
-            Assert.assertEquals(member.getName(), name + testName[i]);
+            //then
+            Assert.assertEquals(member.getName(), name + nameAddList[i]);
+            Assert.assertEquals(member.getOriginalName(), name);
         }
-     }
+    }
 
     @Test
     public void 맴버_이름검색() throws Exception {
+        //given
+        Team team = Team.builder().name("웹개발1팀").build();
+        teamRepository.save(team);
 
-        TeamCreateForm teamForm = TeamCreateForm.builder()
-                .name("웹개발1팀")
-                .build();
-        Team team = teamService.save(teamForm);
+        memberRepository.save(Member.builder().name("Kim").team(team).build());
+        memberRepository.save(Member.builder().name("Kim").team(team).build());
+        memberRepository.save(Member.builder().name("Bae").team(team).build());
+        memberRepository.save(Member.builder().name("Mark").team(team).build());
 
-        MemberCreateForm form = MemberCreateForm.builder()
-                .name("홍길동")
-                .team(team)
-                .build();
-        Member member = memberService.save(form);
+        em.flush();
+        em.clear();
 
-        MemberCreateForm form1 = MemberCreateForm.builder()
-                .name("나경한")
-                .team(team)
-                .build();
-        memberService.save(form1);
+        SearchDto searchDto = SearchDto.builder().name("kim").build();
 
-        SearchDto searchDto = new SearchDto();
-        searchDto.setName("홍길동");
+        //when
+        List<MemberDto> findMembers = memberService.search(searchDto);
 
-        Assert.assertEquals(member.getName(), memberService.search(searchDto).get(0).getName());
-
+        //then
+        for (MemberDto member : findMembers) {
+            Assert.assertEquals(searchDto.getName(),member.getName());
+        }
+        Assert.assertEquals(memberRepository.countByOriginalName(searchDto.getName()),findMembers.size());
     }
 
     @Test
     public void 맴버_팀명검색() throws Exception {
+        //given
+        Team team1 = Team.builder().name("웹개발1팀").build();
+        Team team2 = Team.builder().name("총무팀").build();
+        teamRepository.save(team1);
+        teamRepository.save(team2);
+        memberRepository.save(Member.builder().team(team1).build());
+        memberRepository.save(Member.builder().team(team2).build());
+        memberRepository.save(Member.builder().team(team2).build());
 
-        TeamCreateForm teamForm = TeamCreateForm.builder()
-                .name("웹개발1팀")
-                .build();
-        Team team = teamService.save(teamForm);
+        em.flush();
+        em.clear();
 
-        TeamCreateForm teamForm1 = TeamCreateForm.builder()
-                .name("웹개발2팀")
-                .build();
-        Team team1 = teamService.save(teamForm1);
+        SearchDto searchDto = SearchDto.builder().teamName("총무팀").build();
+        Team findTeam = teamRepository.findByName(searchDto.getTeamName()).get();
 
-        MemberCreateForm form = MemberCreateForm.builder()
-                .name("홍길동")
-                .team(team)
-                .build();
-        Member member = memberService.save(form);
+        //when
+        List<MemberDto> findMembers = memberService.search(searchDto);
 
-        MemberCreateForm form1 = MemberCreateForm.builder()
-                .name("나경한")
-                .team(team1)
-                .build();
-        memberService.save(form1);
-
-        SearchDto searchDto = new SearchDto();
-        searchDto.setTeamName("웹개발1팀");
-
-        Assert.assertEquals(member.getTeam().getName(), memberService.search(searchDto).get(0).getTeamName());
+        //then
+        for (MemberDto member : findMembers) {
+            Assert.assertEquals(searchDto.getTeamName(),member.getTeamName());
+        }
+        Assert.assertEquals(findTeam.getMembers().size(), findMembers.size());
     }
 
     @Test
     public void 맴버_내선번호검색() throws Exception {
+        //given
+        Team team = Team.builder().name("웹개발1팀").build();
+        teamRepository.save(team);
+        memberRepository.save(Member.builder().number(1001).team(team).build());
+        memberRepository.save(Member.builder().number(1002).team(team).build());
+        memberRepository.save(Member.builder().number(1004).team(team).build());
 
-        TeamCreateForm teamForm = TeamCreateForm.builder()
-                .name("웹개발1팀")
-                .build();
-        Team team = teamService.save(teamForm);
+        em.flush();
+        em.clear();
 
-        MemberCreateForm form = MemberCreateForm.builder()
-                .name("홍길동")
-                .team(team)
-                .number(1004)
-                .build();
-        Member member = memberService.save(form);
+        SearchDto searchDto = SearchDto.builder().number(1004).build();
 
-        MemberCreateForm form1 = MemberCreateForm.builder()
-                .name("나경한")
-                .team(team)
-                .number(1001)
-                .build();
-        memberService.save(form1);
+        //when
+        List<MemberDto> findMembers = memberService.search(searchDto);
 
-        SearchDto searchDto = new SearchDto();
-        searchDto.setNumber(1004);
-
-        List<MemberDto> searchMembers = memberService.search(searchDto);
-
-        Assert.assertEquals(1, searchMembers.size());
-        Assert.assertEquals(member.getNumber(), searchMembers.get(0).getNumber());
+        //then
+        for (MemberDto member : findMembers) {
+            Assert.assertEquals(searchDto.getNumber(), member.getNumber());
+        }
     }
 
     @Test
     public void 맴버_전화번호검색() throws Exception {
+        //given
+        Team team = Team.builder().name("웹개발1팀").build();
+        teamRepository.save(team);
+        memberRepository.save(Member.builder().phone("010-0000-0000").team(team).build());
+        memberRepository.save(Member.builder().phone("010-1111-1111").team(team).build());
+        memberRepository.save(Member.builder().phone("010-2222-2222").team(team).build());
+        memberRepository.save(Member.builder().phone("010-3333-3333").team(team).build());
 
-        TeamCreateForm teamForm = TeamCreateForm.builder()
-                .name("웹개발1팀")
-                .build();
-        Team team = teamService.save(teamForm);
+        SearchDto searchDto = SearchDto.builder().phone("010-2222-2222").build();
 
-        MemberCreateForm form = MemberCreateForm.builder()
-                .name("홍길동")
-                .team(team)
-                .phone("010-1234-1234")
-                .build();
-        Member member = memberService.save(form);
+        //when
+        List<MemberDto> findMembers = memberService.search(searchDto);
 
-        MemberCreateForm form1 = MemberCreateForm.builder()
-                .name("나경한")
-                .team(team)
-                .phone("010-0000-0000")
-                .build();
-        memberService.save(form1);
-
-        SearchDto searchDto = new SearchDto();
-        searchDto.setPhone("010-1234-1234");
-
-        List<MemberDto> searchMembers = memberService.search(searchDto);
-
-        Assert.assertEquals(1, searchMembers.size());
-        Assert.assertEquals(member.getPhone(), memberService.search(searchDto).get(0).getPhone());
+        //then
+        for (MemberDto member : findMembers) {
+            Assert.assertEquals(searchDto.getPhone(), member.getPhone());
+        }
     }
-
 }

@@ -1,6 +1,7 @@
 
 package rsupport.rsupport.repository;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.repository.CrudRepository;
 import rsupport.rsupport.domain.Team;
@@ -12,6 +13,9 @@ public interface TeamRepository extends CrudRepository<Team, Long> {
 
     @EntityGraph(attributePaths = "members")
     List<Team> findAll();
+
+    @EntityGraph(attributePaths = "members")
+    List<Team> findAll(Sort name);
 
     Optional<Team> findByName(String name);
 }

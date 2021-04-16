@@ -8,12 +8,12 @@ import rsupport.rsupport.repository.TeamRepository;
 
 @RequiredArgsConstructor
 @Component
-public class DbReset {
+public class DbRemove {
 
     private final MemberRepository memberRepository;
     private final TeamRepository teamRepository;
 
-    public void dbReset(){
+    public void dbRemove(){
         memberRepository.deleteAll();
         teamRepository.deleteAll();
     }

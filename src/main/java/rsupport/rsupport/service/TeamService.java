@@ -2,14 +2,13 @@
 package rsupport.rsupport.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import rsupport.rsupport.Dto.ChartMemberDto;
 import rsupport.rsupport.Dto.ChartTeamDto;
 import rsupport.rsupport.Dto.TeamCreateForm;
 import rsupport.rsupport.domain.Member;
-import rsupport.rsupport.domain.Position;
 import rsupport.rsupport.domain.Team;
-import rsupport.rsupport.repository.MemberRepository;
 import rsupport.rsupport.repository.TeamRepository;
 
 import java.util.ArrayList;
@@ -22,7 +21,6 @@ import java.util.stream.Collectors;
 public class TeamService {
 
     private final TeamRepository teamRepository;
-    private final MemberRepository memberRepository;
 
     public Team save(TeamCreateForm form) {
         Team team = Team.builder()
@@ -34,9 +32,7 @@ public class TeamService {
     public List<ChartTeamDto> findChart() {
         List<ChartTeamDto> result = new ArrayList<>();
 
-        List<Team> teamList = teamRepository.findAll().stream()
-                .sorted(Comparator.comparing(Team::getName))
-                .collect(Collectors.toList());
+        List<Team> teamList = teamRepository.findAll(Sort.by(Sort.Direction.ASC, "name"));
 
         teamList.forEach(team -> {
             ChartTeamDto teamDto = new ChartTeamDto();

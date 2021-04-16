@@ -33,7 +33,7 @@ public class DbInit {
         String line;
         try {
             Path path = Paths.get(resource.getURI());
-            br = new BufferedReader(new InputStreamReader(new FileInputStream(path.toString()), "UTF-8"));
+            br = new BufferedReader(new InputStreamReader(new FileInputStream(path.toString())));
             while((line = br.readLine()) != null) {
                 String[] temp = line.replace(" ","").split(",");
 

@@ -14,8 +14,8 @@ public class MemberCreateForm {
     private int number;
     private String phone;
     private Team team;
-    private String grade; // 직위
-    private String position; // 직책
+    private String grade;
+    private String position;
 
     @Builder
     public MemberCreateForm(String name, int number, String phone, Team team, String grade, String position) {

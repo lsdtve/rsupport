@@ -7,9 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import rsupport.rsupport.Dto.MemberCreateForm;
 import rsupport.rsupport.Dto.MemberDto;
 import rsupport.rsupport.Dto.SearchDto;
-import rsupport.rsupport.domain.Grade;
 import rsupport.rsupport.domain.Member;
-import rsupport.rsupport.domain.Position;
 import rsupport.rsupport.repository.MemberRepository;
 
 import java.util.List;
@@ -37,7 +35,7 @@ public class MemberService {
     }
 
     public String duplicateName(String name){
-        char sameNameCount = memberRepository.countByOriginalName(name);
+        int sameNameCount = memberRepository.countByOriginalName(name);
 
         if (sameNameCount==0){
             return name;

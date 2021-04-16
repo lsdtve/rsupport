@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface MemberRepository extends CrudRepository<Member,Long>, CustomMemberRepository {
     List<Member> findAll();
-    char countByOriginalName(String originalName);
+    int countByOriginalName(String originalName);
 }
