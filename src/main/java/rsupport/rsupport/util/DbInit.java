@@ -17,6 +17,8 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.HashMap;
+import java.util.Map;
 
 @RequiredArgsConstructor
 @Component
@@ -27,7 +29,7 @@ public class DbInit {
     private final TeamRepository teamRepository;
     private final TeamService teamService;
 
-    public void dbInit() {
+    public Object dbInit() {
         BufferedReader br = null;
         ClassPathResource resource = new ClassPathResource("data/member.csv");
         String line;
@@ -64,6 +66,12 @@ public class DbInit {
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        HashMap<String, Long> result = new HashMap<>();
+        result.put("teamSize", teamRepository.count());
+        result.put("memberSize", memberRepository.count());
+
+        return result;
     }
 
 }
