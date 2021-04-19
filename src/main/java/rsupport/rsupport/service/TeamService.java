@@ -28,8 +28,6 @@ public class TeamService {
     }
 
     public List<ChartTeamDto> findChart() {
-        List<ChartTeamDto> result = new ArrayList<>();
-        Sort.Order Order;
 
         List<Sort.Order> orders = new ArrayList<>();
         orders.add(new Sort.Order(Sort.Direction.ASC, "name"));
@@ -38,15 +36,8 @@ public class TeamService {
 
         List<Team> teamList = teamRepository.findAll(Sort.by(orders));
 
-        teamList.forEach(team -> {
-            ChartTeamDto teamDto = new ChartTeamDto();
-            teamDto.setTeamName(team.getName());
-            teamDto.setMembers(team.getMembers().stream()
-                    .map(ChartMemberDto::new)
-                    .collect(Collectors.toList())
-            );
-            result.add(teamDto);
-        });
-        return result;
+        return teamList.stream()
+                .map(ChartTeamDto::new)
+                .collect(Collectors.toList());
     }
 }
