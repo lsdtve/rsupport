@@ -28,9 +28,10 @@ public class ChartController {
             message.setStatus("Success");
             message.setMessage("조직도");
             message.setData(data);
-
         }catch (Exception e) {
-
+            message.setStatus("Fail");
+            message.setMessage("");
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
         return new ResponseEntity<>(message, HttpStatus.OK);
     }

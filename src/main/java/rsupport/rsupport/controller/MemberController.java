@@ -32,9 +32,9 @@ public class MemberController {
         }catch (Exception e) {
             message.setStatus("Fail");
             message.setMessage("");
-            new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
-        return new ResponseEntity(message, HttpStatus.OK);
+        return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
 }
