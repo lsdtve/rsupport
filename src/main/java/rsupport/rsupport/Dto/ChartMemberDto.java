@@ -4,7 +4,6 @@ package rsupport.rsupport.Dto;
 import lombok.Getter;
 import lombok.Setter;
 import rsupport.rsupport.domain.Member;
-import rsupport.rsupport.domain.Position;
 
 @Getter
 @Setter
