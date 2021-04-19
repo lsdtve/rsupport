@@ -9,7 +9,7 @@ import rsupport.rsupport.domain.Member;
 @Setter
 public class ChartMemberDto {
     private String name;
-    private int number;
+    private String number;
     private String phone;
     private String grade;
     private String position;

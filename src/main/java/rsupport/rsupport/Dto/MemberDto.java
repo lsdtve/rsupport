@@ -9,7 +9,7 @@ import rsupport.rsupport.domain.Member;
 @Setter
 public class MemberDto {
     private String name;
-    private int number;
+    private String number;
     private String phone;
     private String teamName;
     private String grade;

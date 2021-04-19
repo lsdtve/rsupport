@@ -54,7 +54,7 @@ public class DbInitTest {
                 String[] temp = line.replace(" ", "").split(",");
 
                 String name = temp[1];
-                int number = Integer.parseInt(temp[2]);
+                String number = temp[2];
                 String phone = temp[3];
                 String teamName = temp[4];
                 String grade = temp[5];

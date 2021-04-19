@@ -18,7 +18,7 @@ public class Member {
 
     private String originalName;
     private String name;
-    private int number;
+    private String number;
     private String phone;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,7 +30,7 @@ public class Member {
     private String position;
 
     @Builder
-    public Member(String originalName, String name, int number, String phone, Team team, String grade, String position) {
+    public Member(String originalName, String name, String number, String phone, Team team, String grade, String position) {
         this.originalName = originalName;
         this.name = name;
         this.number = number;

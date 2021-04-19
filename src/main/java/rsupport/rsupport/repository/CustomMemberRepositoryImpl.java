@@ -1,16 +1,14 @@
 
 package rsupport.rsupport.repository;
 
-import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.JPQLQuery;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
-import rsupport.rsupport.Dto.SearchDto;
 import rsupport.rsupport.domain.Member;
+import rsupport.rsupport.domain.QMember;
 import rsupport.rsupport.domain.QTeam;
 
 import java.util.List;
-
-import static rsupport.rsupport.domain.QMember.member;
 
 public class CustomMemberRepositoryImpl extends QuerydslRepositorySupport implements CustomMemberRepository {
 
@@ -19,45 +17,23 @@ public class CustomMemberRepositoryImpl extends QuerydslRepositorySupport implem
     }
 
     @Override
-    public List<Member> searchMembers(SearchDto searchDto) {
+    public List<Member> searchMembers(String searchWord) {
+        QMember member = QMember.member;
+
+        BooleanBuilder builder = new BooleanBuilder();
+        if (searchWord!=null) {
+            builder.or(member.name.contains(searchWord))
+                    .or(member.team.name.contains(searchWord))
+                    .or(member.number.contains(searchWord))
+                    .or(member.phone.contains(searchWord));
+        }
 
         JPQLQuery<Member> query = from(member)
                 .leftJoin(member.team, QTeam.team)
                 .fetchJoin()
-                .where(eqOriginalName(searchDto.getName()),
-                        eqNumber(searchDto.getNumber()),
-                        eqTeam(searchDto.getTeamName()),
-                        eqPhone(searchDto.getPhone()))
+                .where(builder)
                 .orderBy(member.name.desc());
 
         return query.fetch();
-    }
-
-    private BooleanExpression eqOriginalName(String name) {
-        if (name==null){
-            return null;
-        }
-        return member.originalName.eq(name);
-    }
-
-    private BooleanExpression eqNumber(int number) {
-        if (number==0){
-            return null;
-        }
-        return member.number.eq(number);
-    }
-
-    private BooleanExpression eqTeam(String teamName) {
-        if (teamName==null){
-            return null;
-        }
-        return member.team.name.eq(teamName);
-    }
-
-    private BooleanExpression eqPhone(String phone) {
-        if (phone==null){
-            return null;
-        }
-        return member.phone.eq(phone);
     }
 }

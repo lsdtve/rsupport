@@ -58,24 +58,24 @@ public class MemberServiceTest {
         Team team = Team.builder().name("웹개발1팀").build();
         teamRepository.save(team);
 
-        memberRepository.save(Member.builder().name("Kim").team(team).build());
-        memberRepository.save(Member.builder().name("Kim").team(team).build());
+        memberRepository.save(Member.builder().name("AKim").team(team).build());
+        memberRepository.save(Member.builder().name("KimSu").team(team).build());
         memberRepository.save(Member.builder().name("Bae").team(team).build());
         memberRepository.save(Member.builder().name("Mark").team(team).build());
 
         em.flush();
         em.clear();
 
-        SearchDto searchDto = SearchDto.builder().name("kim").build();
+        String seachWord = "kim";
 
         //when
-        List<MemberDto> findMembers = memberService.search(searchDto);
+        List<MemberDto> findMembers = memberService.search(seachWord);
 
         //then
         for (MemberDto member : findMembers) {
-            Assert.assertEquals(searchDto.getName(),member.getName());
+            System.out.println(member.getName() + " " +seachWord);
+            Assert.assertTrue(!member.getName().contains(seachWord));
         }
-        Assert.assertEquals(memberRepository.countByOriginalName(searchDto.getName()),findMembers.size());
     }
 
     @Test
@@ -92,17 +92,16 @@ public class MemberServiceTest {
         em.flush();
         em.clear();
 
-        SearchDto searchDto = SearchDto.builder().teamName("총무팀").build();
-        Team findTeam = teamRepository.findByName(searchDto.getTeamName()).get();
+        Team findTeam = teamRepository.findByName("총무팀").get();
+        String searchWord = "총무";
 
         //when
-        List<MemberDto> findMembers = memberService.search(searchDto);
+        List<MemberDto> findMembers = memberService.search(searchWord);
 
         //then
         for (MemberDto member : findMembers) {
-            Assert.assertEquals(searchDto.getTeamName(),member.getTeamName());
+            Assert.assertTrue(member.getTeamName().contains(searchWord));
         }
-        Assert.assertEquals(findTeam.getMembers().size(), findMembers.size());
     }
 
     @Test
@@ -110,21 +109,21 @@ public class MemberServiceTest {
         //given
         Team team = Team.builder().name("웹개발1팀").build();
         teamRepository.save(team);
-        memberRepository.save(Member.builder().number(1001).team(team).build());
-        memberRepository.save(Member.builder().number(1002).team(team).build());
-        memberRepository.save(Member.builder().number(1004).team(team).build());
+        memberRepository.save(Member.builder().number("1001").team(team).build());
+        memberRepository.save(Member.builder().number("1002").team(team).build());
+        memberRepository.save(Member.builder().number("1004").team(team).build());
 
         em.flush();
         em.clear();
 
-        SearchDto searchDto = SearchDto.builder().number(1004).build();
+        String searchWord = "1004";
 
         //when
-        List<MemberDto> findMembers = memberService.search(searchDto);
+        List<MemberDto> findMembers = memberService.search(searchWord);
 
         //then
         for (MemberDto member : findMembers) {
-            Assert.assertEquals(searchDto.getNumber(), member.getNumber());
+            Assert.assertTrue(member.getNumber().contains(searchWord));
         }
     }
 
@@ -138,14 +137,14 @@ public class MemberServiceTest {
         memberRepository.save(Member.builder().phone("010-2222-2222").team(team).build());
         memberRepository.save(Member.builder().phone("010-3333-3333").team(team).build());
 
-        SearchDto searchDto = SearchDto.builder().phone("010-2222-2222").build();
+        String searchWord = "2222";
 
         //when
-        List<MemberDto> findMembers = memberService.search(searchDto);
+        List<MemberDto> findMembers = memberService.search(searchWord);
 
         //then
         for (MemberDto member : findMembers) {
-            Assert.assertEquals(searchDto.getPhone(), member.getPhone());
+            Assert.assertTrue(member.getPhone().contains(searchWord));
         }
     }
 }

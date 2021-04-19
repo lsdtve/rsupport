@@ -11,14 +11,14 @@ import rsupport.rsupport.domain.Team;
 public class MemberCreateForm {
     private Long id;
     private String name;
-    private int number;
+    private String number;
     private String phone;
     private Team team;
     private String grade;
     private String position;
 
     @Builder
-    public MemberCreateForm(String name, int number, String phone, Team team, String grade, String position) {
+    public MemberCreateForm(String name, String number, String phone, Team team, String grade, String position) {
         this.name = name;
         this.number = number;
         this.phone = phone;

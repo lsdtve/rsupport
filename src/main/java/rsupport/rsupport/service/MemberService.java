@@ -44,8 +44,8 @@ public class MemberService {
         return String.format("%s(%c)", name, sameNameCount+'A');
     }
 
-    public List<MemberDto> search(SearchDto searchDto) {
-        return memberRepository.searchMembers(searchDto).stream()
+    public List<MemberDto> search(String searchWord) {
+        return memberRepository.searchMembers(searchWord).stream()
                 .map(MemberDto::new)
                 .collect(Collectors.toList());
     }
