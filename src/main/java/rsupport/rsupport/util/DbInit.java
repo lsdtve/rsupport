@@ -6,6 +6,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import rsupport.rsupport.Dto.MemberCreateForm;
 import rsupport.rsupport.Dto.TeamCreateForm;
+import rsupport.rsupport.domain.Member;
 import rsupport.rsupport.domain.Team;
 import rsupport.rsupport.repository.MemberRepository;
 import rsupport.rsupport.repository.TeamRepository;
@@ -53,20 +54,28 @@ public class DbInit {
             if (teamName.isEmpty())
                 continue;
 
-            Team team = teamRepository.findByName(teamName).orElseGet(()-> {
-                return Team.builder().name(teamName).build();
-            });
+            Team team = findTeam(teamName);
 
-            MemberCreateForm member = MemberCreateForm.builder()
-                    .name(name)
-                    .number(number)
-                    .phone(phone)
-                    .team(team)
-                    .grade(grade)
-                    .position(position)
-                    .build();
-            memberService.save(member);
+            saveMember(name, number, phone, grade, position, team);
         }
+    }
+
+    public Member saveMember(String name, String number, String phone, String grade, String position, Team team) {
+        MemberCreateForm member = MemberCreateForm.builder()
+                .name(name)
+                .number(number)
+                .phone(phone)
+                .team(team)
+                .grade(grade)
+                .position(position)
+                .build();
+        return memberService.save(member);
+    }
+
+    public Team findTeam(String teamName) {
+        return teamRepository.findByName(teamName).orElseGet(()-> {
+            return Team.builder().name(teamName).build();
+        });
     }
 
     public String rtrim(String value) {
