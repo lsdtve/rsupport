@@ -42,13 +42,13 @@ public class DbInit {
             if (st.countTokens()<6)
                 continue;
 
-            String id = st.nextToken().trim();
-            String name = st.nextToken().trim();
-            String number = st.nextToken().trim();
-            String phone = st.nextToken().trim();
-            String teamName = st.nextToken().trim();
-            String grade = st.nextToken().trim();
-            String position = st.hasMoreTokens() ? st.nextToken().trim() : "팀원";
+            String id = st.nextToken();
+            String name = rtrim(st.nextToken());
+            String number = rtrim(st.nextToken());
+            String phone = rtrim(st.nextToken());
+            String teamName = rtrim(st.nextToken());
+            String grade = rtrim(st.nextToken());
+            String position = st.hasMoreTokens() ? rtrim(st.nextToken()) : "팀원";
 
             if (teamName.isEmpty())
                 continue;
@@ -70,6 +70,17 @@ public class DbInit {
                     .build();
             memberService.save(member);
         }
+    }
+
+    public String rtrim(String value) {
+        int len = value.length();
+        int st = 0;
+        char[] val = value.toCharArray();
+
+        while ((st < len) && (val[st] <= ' ')) {
+            st++;
+        }
+        return value.substring(st, len);
     }
 
 }

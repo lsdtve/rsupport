@@ -25,7 +25,10 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.List;
 import java.util.StringTokenizer;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.*;
 
@@ -38,6 +41,7 @@ public class DbInitTest {
     @Autowired private MemberRepository memberRepository;
     @Autowired private TeamService teamService;
     @Autowired private TeamRepository teamRepository;
+    @Autowired private DbInit dbInit;
 
     @PersistenceContext
     private EntityManager em;
@@ -56,13 +60,13 @@ public class DbInitTest {
             if (st.countTokens()<6)
                 continue;
 
-            String id = st.nextToken().trim();
-            String name = st.nextToken().trim();
-            String number = st.nextToken().trim();
-            String phone = st.nextToken().trim();
-            String teamName = st.nextToken().trim();
-            String grade = st.nextToken().trim();
-            String position = st.hasMoreTokens() ? st.nextToken().trim() : "팀원";
+            String id = st.nextToken();
+            String name = dbInit.rtrim(st.nextToken());
+            String number = dbInit.rtrim(st.nextToken());
+            String phone = dbInit.rtrim(st.nextToken());
+            String teamName = dbInit.rtrim(st.nextToken());
+            String grade = dbInit.rtrim(st.nextToken());
+            String position = st.hasMoreTokens() ? dbInit.rtrim(st.nextToken()) : "팀원";
 
             if (teamName.isEmpty())
                 continue;
@@ -99,4 +103,19 @@ public class DbInitTest {
             Assert.assertEquals(saveMember.getTeam().getName(), findMember.getTeam().getName());
         }
     }
+
+    @Test
+    public void rtime() throws Exception {
+        //given
+        String[] lst = {"    test ", " test", "test", "","test "};
+        String[] predictionList = {"test ", "test", "test", "", "test "};
+
+        //when
+        List<String> resultList = Arrays.stream(lst).map(dbInit::rtrim).collect(Collectors.toList());
+
+        //then
+        for (int i = 0; i < lst.length; i++) {
+            Assert.assertEquals(resultList.get(i),predictionList[i]);
+        }
+     }
 }
