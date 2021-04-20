@@ -71,11 +71,8 @@ public class DbInitTest {
             if (teamName.isEmpty())
                 continue;
 
-            Team team = teamRepository.findByName(teamName).orElseGet(() -> {
-                TeamCreateForm teamForm = TeamCreateForm.builder()
-                        .name(teamName)
-                        .build();
-                return teamService.save(teamForm);
+            Team team = teamRepository.findByName(teamName).orElseGet(()-> {
+                return Team.builder().name(teamName).build();
             });
 
             MemberCreateForm member = MemberCreateForm.builder()
