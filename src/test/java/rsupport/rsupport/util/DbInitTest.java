@@ -25,6 +25,7 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.StringTokenizer;
 
 import static org.junit.Assert.*;
 
@@ -44,55 +45,58 @@ public class DbInitTest {
     @Test
     public void DbInit() throws Exception {
         //given
-        BufferedReader br = null;
         ClassPathResource resource = new ClassPathResource("data/member.csv");
         String line;
-        try {
-            Path path = Paths.get(resource.getURI());
-            br = new BufferedReader(new InputStreamReader(new FileInputStream(path.toString())));
-            while ((line = br.readLine()) != null) {
-                String[] temp = line.replace(" ", "").split(",");
 
-                String name = temp[1];
-                String number = temp[2];
-                String phone = temp[3];
-                String teamName = temp[4];
-                String grade = temp[5];
-                String position = (temp.length == 7 ? temp[6].trim() : "팀원");
+        Path path = Paths.get(resource.getURI());
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path.toString())));
+        while ((line = br.readLine()) != null) {
+            StringTokenizer st = new StringTokenizer(line,",");
 
-                Team team = teamRepository.findByName(teamName).orElseGet(() -> {
-                    TeamCreateForm teamForm = TeamCreateForm.builder()
-                            .name(teamName)
-                            .build();
-                    return teamService.save(teamForm);
-                });
+            if (st.countTokens()<6)
+                continue;
 
-                MemberCreateForm member = MemberCreateForm.builder()
-                        .name(name)
-                        .number(number)
-                        .phone(phone)
-                        .team(team)
-                        .grade(grade)
-                        .position(position)
+            String id = st.nextToken().trim();
+            String name = st.nextToken().trim();
+            String number = st.nextToken().trim();
+            String phone = st.nextToken().trim();
+            String teamName = st.nextToken().trim();
+            String grade = st.nextToken().trim();
+            String position = st.hasMoreTokens() ? st.nextToken().trim() : "팀원";
+
+            if (teamName.isEmpty())
+                continue;
+
+            Team team = teamRepository.findByName(teamName).orElseGet(() -> {
+                TeamCreateForm teamForm = TeamCreateForm.builder()
+                        .name(teamName)
                         .build();
-                Member saveMember = memberService.save(member);
+                return teamService.save(teamForm);
+            });
 
-                //when
-                em.flush();
-                em.clear();
+            MemberCreateForm member = MemberCreateForm.builder()
+                    .name(name)
+                    .number(number)
+                    .phone(phone)
+                    .team(team)
+                    .grade(grade)
+                    .position(position)
+                    .build();
+            Member saveMember = memberService.save(member);
 
-                Member findMember = memberRepository.findById(saveMember.getId()).get();
+            //when
+            em.flush();
+            em.clear();
 
-                //then
-                Assert.assertEquals(saveMember.getName(), findMember.getName());
-                Assert.assertEquals(saveMember.getPhone(), findMember.getPhone());
-                Assert.assertEquals(saveMember.getNumber(), findMember.getNumber());
-                Assert.assertEquals(saveMember.getGrade(), findMember.getGrade());
-                Assert.assertEquals(saveMember.getPosition(), findMember.getPosition());
-                Assert.assertEquals(saveMember.getTeam().getName(), findMember.getTeam().getName());
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+            Member findMember = memberRepository.findById(saveMember.getId()).get();
+
+            //then
+            Assert.assertEquals(saveMember.getName(), findMember.getName());
+            Assert.assertEquals(saveMember.getPhone(), findMember.getPhone());
+            Assert.assertEquals(saveMember.getNumber(), findMember.getNumber());
+            Assert.assertEquals(saveMember.getGrade(), findMember.getGrade());
+            Assert.assertEquals(saveMember.getPosition(), findMember.getPosition());
+            Assert.assertEquals(saveMember.getTeam().getName(), findMember.getTeam().getName());
         }
     }
 }

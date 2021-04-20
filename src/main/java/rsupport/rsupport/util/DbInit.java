@@ -14,11 +14,11 @@ import rsupport.rsupport.service.TeamService;
 
 import java.io.BufferedReader;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.StringTokenizer;
 
 @RequiredArgsConstructor
 @Component
@@ -29,49 +29,47 @@ public class DbInit {
     private final TeamRepository teamRepository;
     private final TeamService teamService;
 
-    public Object dbInit() {
-        BufferedReader br = null;
+    public void dbInit() throws IOException {
         ClassPathResource resource = new ClassPathResource("data/member.csv");
         String line;
-        try {
-            Path path = Paths.get(resource.getURI());
-            br = new BufferedReader(new InputStreamReader(new FileInputStream(path.toString())));
-            while((line = br.readLine()) != null) {
-                String[] temp = line.replace(" ","").split(",");
 
-                String name = temp[1];
-                String number = temp[2];
-                String phone = temp[3];
-                String teamName = temp[4];
-                String grade = temp[5];
-                String position = (temp.length==7 ? temp[6].trim(): "팀원");
+        Path path = Paths.get(resource.getURI());
+        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path.toString())));
 
-                Team team = teamRepository.findByName(teamName).orElseGet(()-> {
-                    TeamCreateForm teamForm = TeamCreateForm.builder()
-                            .name(teamName)
-                            .build();
-                    return teamService.save(teamForm);
-                });
+        while((line = br.readLine()) != null) {
+            StringTokenizer st = new StringTokenizer(line,",");
 
-                MemberCreateForm member = MemberCreateForm.builder()
-                        .name(name)
-                        .number(number)
-                        .phone(phone)
-                        .team(team)
-                        .grade(grade)
-                        .position(position)
+            if (st.countTokens()<6)
+                continue;
+
+            String id = st.nextToken().trim();
+            String name = st.nextToken().trim();
+            String number = st.nextToken().trim();
+            String phone = st.nextToken().trim();
+            String teamName = st.nextToken().trim();
+            String grade = st.nextToken().trim();
+            String position = st.hasMoreTokens() ? st.nextToken().trim() : "팀원";
+
+            if (teamName.isEmpty())
+                continue;
+
+            Team team = teamRepository.findByName(teamName).orElseGet(()-> {
+                TeamCreateForm teamForm = TeamCreateForm.builder()
+                        .name(teamName)
                         .build();
-                memberService.save(member);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
+                return teamService.save(teamForm);
+            });
+
+            MemberCreateForm member = MemberCreateForm.builder()
+                    .name(name)
+                    .number(number)
+                    .phone(phone)
+                    .team(team)
+                    .grade(grade)
+                    .position(position)
+                    .build();
+            memberService.save(member);
         }
-
-        HashMap<String, Long> result = new HashMap<>();
-        result.put("teamSize", teamRepository.count());
-        result.put("memberSize", memberRepository.count());
-
-        return result;
     }
 
 }

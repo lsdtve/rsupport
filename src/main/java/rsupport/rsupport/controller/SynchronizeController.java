@@ -23,12 +23,13 @@ public class SynchronizeController {
         ApiResponseMessage message = new ApiResponseMessage();
         try {
             dbRemove.dbRemove();
-            Object data = dbInit.dbInit();
+            dbInit.dbInit();
 
             message.setStatus("Success");
             message.setMessage("주소록 동기화 성공");
-            message.setData(data);
+
         }catch (Exception e) {
+            System.out.println(e);
             return new ResponseEntity<>(message, HttpStatus.INTERNAL_SERVER_ERROR);
         }
         return new ResponseEntity<>(message, HttpStatus.OK);
