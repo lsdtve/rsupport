@@ -2,8 +2,9 @@
 package rsupport.rsupport.repository;
 
 import com.querydsl.core.BooleanBuilder;
-import com.querydsl.jpa.JPQLQuery;
+import com.querydsl.core.types.Projections;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
+import rsupport.rsupport.Dto.MemberDto;
 import rsupport.rsupport.domain.Member;
 import rsupport.rsupport.domain.QMember;
 import rsupport.rsupport.domain.QTeam;
@@ -17,7 +18,7 @@ public class CustomMemberRepositoryImpl extends QuerydslRepositorySupport implem
     }
 
     @Override
-    public List<Member> searchMembers(String searchWord) {
+    public List<MemberDto> searchMembers(String searchWord) {
         QMember member = QMember.member;
 
         BooleanBuilder builder = new BooleanBuilder();
@@ -28,12 +29,10 @@ public class CustomMemberRepositoryImpl extends QuerydslRepositorySupport implem
                     .or(member.phone.contains(searchWord));
         }
 
-        JPQLQuery<Member> query = from(member)
-                .leftJoin(member.team, QTeam.team)
-                .fetchJoin()
+        return from(member)
+                .select(Projections.constructor(MemberDto.class, member.name, member.number, member.phone, member.team.name, member.grade, member.position))
+                .join(member.team, QTeam.team)
                 .where(builder)
-                .orderBy(member.name.desc());
-
-        return query.fetch();
+                .fetch();
     }
 }

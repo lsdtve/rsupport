@@ -1,10 +1,10 @@
 
 package rsupport.rsupport.repository;
 
-import rsupport.rsupport.domain.Member;
+import rsupport.rsupport.Dto.MemberDto;
 
 import java.util.List;
 
 public interface CustomMemberRepository{
-    List<Member> searchMembers(String searchWord);
+    List<MemberDto> searchMembers(String searchWord);
 }

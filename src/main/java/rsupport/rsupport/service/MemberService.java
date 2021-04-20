@@ -6,12 +6,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import rsupport.rsupport.Dto.MemberCreateForm;
 import rsupport.rsupport.Dto.MemberDto;
-import rsupport.rsupport.Dto.SearchDto;
 import rsupport.rsupport.domain.Member;
 import rsupport.rsupport.repository.MemberRepository;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -45,8 +43,6 @@ public class MemberService {
     }
 
     public List<MemberDto> search(String searchWord) {
-        return memberRepository.searchMembers(searchWord).stream()
-                .map(MemberDto::new)
-                .collect(Collectors.toList());
+        return memberRepository.searchMembers(searchWord);
     }
 }
