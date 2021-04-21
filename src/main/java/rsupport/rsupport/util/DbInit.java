@@ -5,7 +5,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Component;
 import rsupport.rsupport.Dto.MemberCreateForm;
-import rsupport.rsupport.Dto.TeamCreateForm;
 import rsupport.rsupport.domain.Member;
 import rsupport.rsupport.domain.Team;
 import rsupport.rsupport.repository.MemberRepository;
@@ -13,10 +12,8 @@ import rsupport.rsupport.repository.TeamRepository;
 import rsupport.rsupport.service.MemberService;
 import rsupport.rsupport.service.TeamService;
 
-import java.io.BufferedReader;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStreamReader;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.StringTokenizer;
@@ -32,32 +29,26 @@ public class DbInit {
 
     public void dbInit() throws IOException {
         ClassPathResource resource = new ClassPathResource("data/member.csv");
-        String line;
-
         Path path = Paths.get(resource.getURI());
-        BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(path.toString())));
 
-        while((line = br.readLine()) != null) {
-            StringTokenizer st = new StringTokenizer(line,",");
+        Files.lines(path)
+            .map(str -> new StringTokenizer(str,","))
+            .filter(st -> 6 <= st.countTokens())
+            .forEach(st -> {
+                String id = st.nextToken();
+                String name = rtrim(st.nextToken());
+                String number = rtrim(st.nextToken());
+                String phone = rtrim(st.nextToken());
+                String teamName = rtrim(st.nextToken());
+                String grade = rtrim(st.nextToken());
+                String position = st.hasMoreTokens() ? rtrim(st.nextToken()) : "팀원";
 
-            if (st.countTokens()<6)
-                continue;
+                if (teamName.isEmpty())
+                    return;
 
-            String id = st.nextToken();
-            String name = rtrim(st.nextToken());
-            String number = rtrim(st.nextToken());
-            String phone = rtrim(st.nextToken());
-            String teamName = rtrim(st.nextToken());
-            String grade = rtrim(st.nextToken());
-            String position = st.hasMoreTokens() ? rtrim(st.nextToken()) : "팀원";
-
-            if (teamName.isEmpty())
-                continue;
-
-            Team team = findTeam(teamName);
-
-            saveMember(name, number, phone, grade, position, team);
-        }
+                Team team = findTeam(teamName);
+                saveMember(name, number, phone, grade, position, team);
+            });
     }
 
     public Member saveMember(String name, String number, String phone, String grade, String position, Team team) {
