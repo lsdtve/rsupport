@@ -11,6 +11,7 @@ import rsupport.rsupport.constant.UrlConstants;
 import rsupport.rsupport.service.TeamService;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -21,18 +22,15 @@ public class ChartController {
     @GetMapping(value = UrlConstants.CHART)
     public ResponseEntity<ApiResponseMessage> getChart() {
         ApiResponseMessage message = new ApiResponseMessage();
-        try {
-            HashMap<String, Object> data = new HashMap<>();
-            data.put("teamList", teamService.findChart());
 
-            message.setStatus("Success");
-            message.setMessage("조직도");
-            message.setData(data);
-        }catch (Exception e) {
-            message.setStatus("Fail");
-            message.setMessage("");
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        Map<String, Object> data = new HashMap<>();
+        data.put("teamList", teamService.findChart());
+
+        message.setStatus("200");
+        message.setMessage("조직도");
+        message.setData(data);
+
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
+
 }

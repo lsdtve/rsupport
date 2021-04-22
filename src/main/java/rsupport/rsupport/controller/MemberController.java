@@ -12,6 +12,7 @@ import rsupport.rsupport.constant.UrlConstants;
 import rsupport.rsupport.service.MemberService;
 
 import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequiredArgsConstructor
@@ -24,19 +25,14 @@ public class MemberController {
             @RequestParam(value = "searchWord", required = false) String searchWord) {
 
         ApiResponseMessage message = new ApiResponseMessage();
-        try {
-            HashMap<String, Object> data = new HashMap<>();
-            data.put("members", memberService.search(searchWord));
 
-            message.setStatus("Success");
-            message.setMessage("");
-            message.setData(data);
-        }catch (Exception e) {
-            e.printStackTrace();
-            message.setStatus("Fail");
-            message.setMessage("");
-            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
-        }
+        Map<String, Object> data = new HashMap<>();
+        data.put("members", memberService.search(searchWord));
+
+        message.setStatus("200");
+        message.setMessage("");
+        message.setData(data);
+
         return new ResponseEntity<>(message, HttpStatus.OK);
     }
 
