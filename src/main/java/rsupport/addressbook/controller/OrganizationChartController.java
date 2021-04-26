@@ -19,12 +19,12 @@ public class OrganizationChartController {
 
     private final TeamService teamService;
 
-    @GetMapping(value = UrlConstants.CHART)
-    public ResponseEntity<ApiResponseMessage> getChart() {
+    @GetMapping(value = UrlConstants.ORGANIZATION_CHART)
+    public ResponseEntity<ApiResponseMessage> getOrganizationChart() {
         ApiResponseMessage message = new ApiResponseMessage();
 
         Map<String, Object> data = new HashMap<>();
-        data.put("teamList", teamService.findChart());
+        data.put("teamList", teamService.findOrganizationChart());
 
         message.setStatus("200");
         message.setMessage("조직도");

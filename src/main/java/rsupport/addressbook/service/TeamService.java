@@ -26,7 +26,7 @@ public class TeamService {
         return teamRepository.save(team);
     }
 
-    public List<OrganizationChartTeamDto> findChart() {
+    public List<OrganizationChartTeamDto> findOrganizationChart() {
 
         List<Sort.Order> orders = new ArrayList<>();
         orders.add(new Sort.Order(Sort.Direction.ASC, "name"));

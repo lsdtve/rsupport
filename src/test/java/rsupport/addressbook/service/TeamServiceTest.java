@@ -46,7 +46,7 @@ public class TeamServiceTest {
         em.clear();
 
         //when
-        List<OrganizationChartTeamDto> teamList = teamService.findChart();
+        List<OrganizationChartTeamDto> teamList = teamService.findOrganizationChart();
 
         //then
         for (int i = 0; i < teamNameList.length ; i++) {
@@ -67,7 +67,7 @@ public class TeamServiceTest {
         em.clear();
 
         //when
-        List<OrganizationChartTeamDto> findChart = teamService.findChart();
+        List<OrganizationChartTeamDto> findChart = teamService.findOrganizationChart();
         OrganizationChartMemberDto firstMember = findChart.get(0).getMembers().get(0);
 
         //then
@@ -96,7 +96,7 @@ public class TeamServiceTest {
          em.clear();
 
          //when
-         List<OrganizationChartTeamDto> findChart = teamService.findChart();
+         List<OrganizationChartTeamDto> findChart = teamService.findOrganizationChart();
          List<OrganizationChartMemberDto> members = findChart.get(0).getMembers();
 
          //then
