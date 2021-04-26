@@ -11,6 +11,7 @@
 	<groupId>rsupport</groupId>
 	<artifactId>rsupport</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
+	<packaging>war</packaging>
 	<name>rsupport</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
@@ -67,6 +68,11 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-configuration-processor</artifactId>
+			<optional>true</optional>
 		</dependency>
 	</dependencies>
 

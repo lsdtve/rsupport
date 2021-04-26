@@ -14,3 +14,8 @@ spring:
 
 logging.level:
   org.hibernate.SQL: debug
+
+custom:
+  file:
+    addressbook:
+      member.file.path: "src/main/resources/data/member.csv"
