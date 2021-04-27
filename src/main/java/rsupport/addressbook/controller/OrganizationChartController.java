@@ -6,7 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
-import rsupport.addressbook.Dto.ApiResponseMessage;
+import rsupport.addressbook.dto.ApiResponseMessage;
 import rsupport.addressbook.constant.UrlConstants;
 import rsupport.addressbook.service.TeamService;
 

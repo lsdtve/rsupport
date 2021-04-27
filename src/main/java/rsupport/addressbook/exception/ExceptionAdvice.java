@@ -4,7 +4,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import rsupport.addressbook.Dto.ErrorResponseMessage;
+import rsupport.addressbook.dto.ErrorResponseMessage;
 
 @RestControllerAdvice
 public class ExceptionAdvice {

@@ -1,7 +1,7 @@
 
 package rsupport.addressbook.repository;
 
-import rsupport.addressbook.Dto.MemberDto;
+import rsupport.addressbook.dto.MemberDto;
 
 import java.util.List;
 

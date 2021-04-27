@@ -4,7 +4,7 @@ package rsupport.addressbook.repository;
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
-import rsupport.addressbook.Dto.MemberDto;
+import rsupport.addressbook.dto.MemberDto;
 import rsupport.addressbook.domain.Member;
 import rsupport.addressbook.domain.QMember;
 import rsupport.addressbook.domain.QTeam;

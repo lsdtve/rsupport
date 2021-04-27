@@ -7,7 +7,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import rsupport.addressbook.Dto.ApiResponseMessage;
+import rsupport.addressbook.dto.ApiResponseMessage;
 import rsupport.addressbook.constant.UrlConstants;
 import rsupport.addressbook.service.MemberService;
 
@@ -21,7 +21,7 @@ public class MemberController {
     private final MemberService memberService;
 
     @GetMapping(value = UrlConstants.MEMBERS)
-    public ResponseEntity<ApiResponseMessage> GetMembers(
+    public ResponseEntity<ApiResponseMessage> getMembers(
             @RequestParam(value = "searchWord", required = false) String searchWord) {
 
         ApiResponseMessage message = new ApiResponseMessage();

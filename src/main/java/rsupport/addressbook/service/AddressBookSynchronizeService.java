@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import rsupport.addressbook.Dto.MemberCreateForm;
+import rsupport.addressbook.dto.MemberCreateForm;
 import rsupport.addressbook.repository.MemberRepository;
 import rsupport.addressbook.repository.TeamRepository;
 import rsupport.addressbook.util.FileUtils;

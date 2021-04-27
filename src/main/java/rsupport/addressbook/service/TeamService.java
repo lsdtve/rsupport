@@ -4,8 +4,8 @@ package rsupport.addressbook.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import rsupport.addressbook.Dto.OrganizationChartTeamDto;
-import rsupport.addressbook.Dto.TeamCreateForm;
+import rsupport.addressbook.dto.OrganizationChartTeamDto;
+import rsupport.addressbook.dto.TeamCreateForm;
 import rsupport.addressbook.domain.Team;
 import rsupport.addressbook.repository.TeamRepository;
 

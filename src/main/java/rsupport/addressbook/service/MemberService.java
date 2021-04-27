@@ -3,8 +3,8 @@ package rsupport.addressbook.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import rsupport.addressbook.Dto.MemberCreateForm;
-import rsupport.addressbook.Dto.MemberDto;
+import rsupport.addressbook.dto.MemberCreateForm;
+import rsupport.addressbook.dto.MemberDto;
 import rsupport.addressbook.domain.Member;
 import rsupport.addressbook.domain.Team;
 import rsupport.addressbook.repository.MemberRepository;

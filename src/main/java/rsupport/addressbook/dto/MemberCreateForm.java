@@ -1,5 +1,5 @@
 
-package rsupport.addressbook.Dto;
+package rsupport.addressbook.dto;
 
 import lombok.Builder;
 import lombok.Getter;

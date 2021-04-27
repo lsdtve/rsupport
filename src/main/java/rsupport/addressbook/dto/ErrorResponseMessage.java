@@ -1,4 +1,4 @@
-package rsupport.addressbook.Dto;
+package rsupport.addressbook.dto;
 
 import lombok.Getter;
 import lombok.Setter;

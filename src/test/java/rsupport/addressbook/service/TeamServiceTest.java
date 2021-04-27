@@ -8,9 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-import rsupport.addressbook.Dto.OrganizationChartMemberDto;
-import rsupport.addressbook.Dto.OrganizationChartTeamDto;
-import rsupport.addressbook.Dto.MemberCreateForm;
+import rsupport.addressbook.dto.OrganizationChartMemberDto;
+import rsupport.addressbook.dto.OrganizationChartTeamDto;
+import rsupport.addressbook.dto.MemberCreateForm;
 import rsupport.addressbook.domain.Team;
 import rsupport.addressbook.repository.TeamRepository;
 
