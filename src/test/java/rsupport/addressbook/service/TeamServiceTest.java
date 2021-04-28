@@ -1,6 +1,9 @@
 
 package rsupport.addressbook.service;
 
+import java.util.Arrays;
+import java.util.List;
+import javax.persistence.EntityManager;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,16 +11,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
+import rsupport.addressbook.domain.Team;
+import rsupport.addressbook.dto.MemberCreateForm;
 import rsupport.addressbook.dto.OrganizationChartMemberDto;
 import rsupport.addressbook.dto.OrganizationChartTeamDto;
-import rsupport.addressbook.dto.MemberCreateForm;
-import rsupport.addressbook.domain.Team;
 import rsupport.addressbook.repository.TeamRepository;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.util.Arrays;
-import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -27,9 +25,7 @@ public class TeamServiceTest {
     @Autowired private MemberService memberService;
     @Autowired private TeamService teamService;
     @Autowired private TeamRepository teamRepository;
-
-    @PersistenceContext
-    private EntityManager em;
+    @Autowired private EntityManager em;
 
     @Test
     public void 조직도_팀_이름정렬() throws Exception {
@@ -52,7 +48,6 @@ public class TeamServiceTest {
         for (int i = 0; i < teamNameList.length ; i++) {
             Assert.assertEquals(teamNameList[i], teamList.get(i).getTeamName());
         }
-
      }
 
     @Test
@@ -79,13 +74,9 @@ public class TeamServiceTest {
          //given
          String[] memberNameList = {"배용균", "홍길동", "이순신", "장도연", "강호동", "유재석"};
 
-         Team team = Team.builder().name("웹개발1팀").build();
-         teamRepository.save(team);
-
          for (String name : memberNameList) {
              memberService.save(MemberCreateForm.builder()
                      .name(name)
-//                     .teamName(team)
                      .position("팀원")
                      .build());
          }

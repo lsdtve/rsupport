@@ -3,13 +3,12 @@ package rsupport.addressbook.repository;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.Projections;
+import java.util.List;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
-import rsupport.addressbook.dto.MemberDto;
 import rsupport.addressbook.domain.Member;
 import rsupport.addressbook.domain.QMember;
 import rsupport.addressbook.domain.QTeam;
-
-import java.util.List;
+import rsupport.addressbook.dto.MemberDto;
 
 public class CustomMemberRepositoryImpl extends QuerydslRepositorySupport implements CustomMemberRepository {
 

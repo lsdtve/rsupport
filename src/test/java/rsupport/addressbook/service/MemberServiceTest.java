@@ -1,6 +1,9 @@
 
 package rsupport.addressbook.service;
 
+import java.util.List;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -8,16 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-import rsupport.addressbook.dto.MemberCreateForm;
-import rsupport.addressbook.dto.MemberDto;
 import rsupport.addressbook.domain.Member;
 import rsupport.addressbook.domain.Team;
+import rsupport.addressbook.dto.MemberCreateForm;
+import rsupport.addressbook.dto.MemberDto;
 import rsupport.addressbook.repository.MemberRepository;
 import rsupport.addressbook.repository.TeamRepository;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -27,10 +26,7 @@ public class MemberServiceTest {
     @Autowired private MemberService memberService;
     @Autowired private MemberRepository memberRepository;
     @Autowired private TeamRepository teamRepository;
-
-    @PersistenceContext
-    private EntityManager em;
-
+    @Autowired private EntityManager em;
 
     @Test
     public void 이름_중복_체크() throws Exception {
@@ -69,7 +65,6 @@ public class MemberServiceTest {
 
         //then
         for (MemberDto member : findMembers) {
-            System.out.println(member.getName() + " " +seachWord);
             Assert.assertTrue(!member.getName().contains(seachWord));
         }
     }

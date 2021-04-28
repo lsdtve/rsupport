@@ -1,7 +1,7 @@
+
 package rsupport.addressbook.exception;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 public enum EnumBaseException {

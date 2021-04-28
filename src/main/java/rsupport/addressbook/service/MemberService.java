@@ -1,16 +1,15 @@
 
 package rsupport.addressbook.service;
 
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import rsupport.addressbook.dto.MemberCreateForm;
-import rsupport.addressbook.dto.MemberDto;
 import rsupport.addressbook.domain.Member;
 import rsupport.addressbook.domain.Team;
+import rsupport.addressbook.dto.MemberCreateForm;
+import rsupport.addressbook.dto.MemberDto;
 import rsupport.addressbook.repository.MemberRepository;
 import rsupport.addressbook.repository.TeamRepository;
-
-import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -19,7 +18,7 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final TeamRepository teamRepository;
 
-    public Member save(MemberCreateForm form){
+    public Member save(MemberCreateForm form) {
         Team team = teamRepository.findByName(form.getTeamName()).orElseGet(() ->
                 Team.builder().name(form.getTeamName()).build()
         );
@@ -36,10 +35,10 @@ public class MemberService {
         return memberRepository.save(member);
     }
 
-    public String duplicateName(String name){
+    public String duplicateName(String name) {
         int sameNameCount = memberRepository.countByOriginalName(name);
 
-        if (sameNameCount==0){
+        if (sameNameCount==0) {
             return name;
         }
 

@@ -1,17 +1,16 @@
 
 package rsupport.addressbook.service;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Service;
-import rsupport.addressbook.dto.OrganizationChartTeamDto;
-import rsupport.addressbook.dto.TeamCreateForm;
-import rsupport.addressbook.domain.Team;
-import rsupport.addressbook.repository.TeamRepository;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import rsupport.addressbook.domain.Team;
+import rsupport.addressbook.dto.OrganizationChartTeamDto;
+import rsupport.addressbook.dto.TeamCreateForm;
+import rsupport.addressbook.repository.TeamRepository;
 
 @RequiredArgsConstructor
 @Service

@@ -1,22 +1,22 @@
+
 package rsupport.addressbook.service;
 
+import java.util.List;
+import java.util.stream.Collectors;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
-import rsupport.addressbook.dto.MemberCreateForm;
 import rsupport.addressbook.domain.Member;
 import rsupport.addressbook.domain.Team;
+import rsupport.addressbook.dto.MemberCreateForm;
 import rsupport.addressbook.repository.MemberRepository;
 import rsupport.addressbook.repository.TeamRepository;
 import rsupport.addressbook.util.FileUtils;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import rsupport.addressbook.util.PropertyUtils;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -24,19 +24,16 @@ import java.util.stream.Collectors;
 public class AddressBookSynchronizeServiceTest {
 
     @Autowired private FileUtils fileUtils;
+    @Autowired private PropertyUtils propertyUtils;
     @Autowired private AddressBookSynchronizeService addressBookSynchronizeService;
     @Autowired private MemberService memberService;
     @Autowired private MemberRepository memberRepository;
     @Autowired private TeamRepository teamRepository;
 
-    @Value("${custom.file.addressbook.member.file.path}")
-    String memberCsvPath;
-
     @Test
     public void dbInit() throws Exception {
         //given
-
-        List<MemberCreateForm> memberCreateFormList = fileUtils.readCsvFile(memberCsvPath)
+        List<MemberCreateForm> memberCreateFormList = fileUtils.readCsvFile(propertyUtils.getAddressbookFilePath())
                 .map(MemberCreateForm::new)
                 .collect(Collectors.toList());
 

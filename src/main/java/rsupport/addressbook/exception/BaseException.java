@@ -2,7 +2,6 @@
 package rsupport.addressbook.exception;
 
 import lombok.Getter;
-import lombok.Setter;
 
 @Getter
 public class BaseException extends RuntimeException {
@@ -12,5 +11,4 @@ public class BaseException extends RuntimeException {
     public BaseException(EnumBaseException enumBaseException) {
         this.enumBaseException = enumBaseException;
     }
-
 }

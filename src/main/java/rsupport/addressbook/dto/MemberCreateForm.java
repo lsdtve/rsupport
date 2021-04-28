@@ -1,11 +1,10 @@
 
 package rsupport.addressbook.dto;
 
+import java.util.StringTokenizer;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-
-import java.util.StringTokenizer;
 
 @Getter
 @Setter

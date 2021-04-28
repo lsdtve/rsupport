@@ -1,26 +1,24 @@
+
 package rsupport.addressbook.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import rsupport.addressbook.dto.MemberCreateForm;
 import rsupport.addressbook.repository.MemberRepository;
 import rsupport.addressbook.repository.TeamRepository;
 import rsupport.addressbook.util.FileUtils;
+import rsupport.addressbook.util.PropertyUtils;
 
 @Service
 @RequiredArgsConstructor
 public class AddressBookSynchronizeService {
 
-    @Autowired private final FileUtils fileUtils;
-    @Autowired private final MemberService memberService;
-    @Autowired private final MemberRepository memberRepository;
-    @Autowired private final TeamRepository teamRepository;
-
-    @Value("${custom.file.addressbook.member.file.path}")
-    String memberCsvPath;
+    private final FileUtils fileUtils;
+    private final PropertyUtils propertyUtils;
+    private final MemberService memberService;
+    private final MemberRepository memberRepository;
+    private final TeamRepository teamRepository;
 
     @Transactional
     public void runSync() {
@@ -29,14 +27,13 @@ public class AddressBookSynchronizeService {
     }
 
     public void dbInit() {
-        fileUtils.readCsvFile(memberCsvPath)
+        fileUtils.readCsvFile(propertyUtils.getAddressbookFilePath())
                 .map(MemberCreateForm::new)
                 .forEach(memberService::save);
     }
 
-    public void dbClearAll(){
+    public void dbClearAll() {
         memberRepository.deleteAll();
         teamRepository.deleteAll();
     }
-
 }

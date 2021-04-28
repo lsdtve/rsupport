@@ -1,14 +1,14 @@
-package rsupport.addressbook.util;
 
-import org.springframework.stereotype.Component;
-import rsupport.addressbook.exception.BaseException;
-import rsupport.addressbook.exception.EnumBaseException;
+package rsupport.addressbook.util;
 
 import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
+import org.springframework.stereotype.Component;
+import rsupport.addressbook.exception.BaseException;
+import rsupport.addressbook.exception.EnumBaseException;
 
 @Component
 public class FileUtils {
