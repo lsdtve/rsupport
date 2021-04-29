@@ -13,10 +13,6 @@ public class PropertyUtils {
 
     private final Environment environment;
 
-    public String getProperty(String key) {
-        return environment.getProperty(key);
-    }
-
     public String getAddressbookFilePath() {
         return environment.getProperty("addressbook.file.path");
     }

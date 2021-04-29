@@ -11,9 +11,6 @@ import rsupport.addressbook.domain.Team;
 public interface TeamRepository extends CrudRepository<Team, Long> {
 
     @EntityGraph(attributePaths = "members")
-    List<Team> findAll();
-
-    @EntityGraph(attributePaths = "members")
     List<Team> findAll(Sort sort);
 
     Optional<Team> findByName(String name);
