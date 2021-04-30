@@ -5,9 +5,9 @@ import lombok.Getter;
 @Getter
 public class BaseException extends RuntimeException {
 
-    private final EnumBaseException enumBaseException;
+    private final ExceptionCode enumBaseException;
 
-    public BaseException(EnumBaseException enumBaseException) {
+    public BaseException(ExceptionCode enumBaseException) {
         this.enumBaseException = enumBaseException;
     }
 }

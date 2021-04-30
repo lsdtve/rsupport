@@ -7,7 +7,7 @@ import java.nio.file.Paths;
 import java.util.stream.Stream;
 import org.springframework.stereotype.Component;
 import rsupport.addressbook.exception.BaseException;
-import rsupport.addressbook.exception.EnumBaseException;
+import rsupport.addressbook.exception.ExceptionCode;
 
 @Component
 public class FileUtils {
@@ -20,9 +20,9 @@ public class FileUtils {
         try {
             result =  Files.lines(filePath);
         } catch (NoSuchFileException e) {
-            throw new BaseException(EnumBaseException.FILE_NOT_FOUND);
+            throw new BaseException(ExceptionCode.FILE_NOT_FOUND);
         } catch (Exception e) {
-            throw new BaseException(EnumBaseException.RUNTIME_ERROR);
+            throw new BaseException(ExceptionCode.RUNTIME_ERROR);
         }
 
         return result;

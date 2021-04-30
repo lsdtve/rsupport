@@ -2,6 +2,7 @@ package rsupport.addressbook.util;
 
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.stream.Stream;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,17 +21,20 @@ public class FileUtilsTest {
     @Autowired private FileUtils fileUtils;
 
     @Test
-    public void csv_파일읽기() throws Exception {
+    public void csv_파일읽기() {
         //given
 
         //when
-        fileUtils.readCsvFile(propertyUtils.getAddressbookFilePath());
+        Stream<String> result = fileUtils.readCsvFile(propertyUtils.getAddressbookFilePath());
 
         //then
+        if (result==null) {
+            Assert.fail();
+        }
     }
 
     @Test(expected = BaseException.class)
-    public void csv_파일_notFound() throws Exception {
+    public void csv_파일_notFound() {
         //given
         String notFoundPath = "./file/not/found/path/memeber.csv";
         Path filePath = Paths.get(notFoundPath);
@@ -40,6 +44,6 @@ public class FileUtilsTest {
 
         //then
         Assert.fail();
-     }
+    }
 
 }

@@ -8,7 +8,6 @@ import lombok.Setter;
 @Getter
 @Setter
 public class MemberCreateForm {
-    private Long id;
     private String name;
     private String number;
     private String phone;
@@ -28,7 +27,7 @@ public class MemberCreateForm {
 
     public MemberCreateForm(String str) {
         StringTokenizer st = new StringTokenizer(str, ",");
-        String id = st.nextToken();
+        st.nextToken();
         this.name = st.nextToken().trim();
         this.number = st.nextToken().trim();
         this.phone = st.nextToken().trim();

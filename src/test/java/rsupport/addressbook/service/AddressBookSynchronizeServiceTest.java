@@ -30,7 +30,7 @@ public class AddressBookSynchronizeServiceTest {
     @Autowired private TeamRepository teamRepository;
 
     @Test
-    public void dbInit() throws Exception {
+    public void dbInit() {
         //given
         List<MemberCreateForm> memberCreateFormList = fileUtils.readCsvFile(propertyUtils.getAddressbookFilePath())
                 .map(MemberCreateForm::new)
@@ -52,22 +52,22 @@ public class AddressBookSynchronizeServiceTest {
             Assert.assertEquals(form.getPosition(), saveMember.getPosition());
             Assert.assertEquals(form.getTeamName(), saveMember.getTeam().getName());
         }
-     }
+    }
 
-     @Test
-     public void removeAll() throws Exception {
-         //given
-         Team team = Team.builder().name("웹개발1팀").build();
+    @Test
+    public void removeAll() {
+        //given
+        Team team = Team.builder().name("웹개발1팀").build();
 
-         memberRepository.save(Member.builder().name("AKim").team(team).build());
-         memberRepository.save(Member.builder().name("KimSu").team(team).build());
+        memberRepository.save(Member.builder().name("AKim").team(team).build());
+        memberRepository.save(Member.builder().name("KimSu").team(team).build());
 
-         //when
-         addressBookSynchronizeService.dbClearAll();
+        //when
+        addressBookSynchronizeService.dbClearAll();
 
-         //then
-         Assert.assertEquals(0, memberRepository.count());
-         Assert.assertEquals(0, teamRepository.count());
-      }
+        //then
+        Assert.assertEquals(0, memberRepository.count());
+        Assert.assertEquals(0, teamRepository.count());
+    }
 
 }

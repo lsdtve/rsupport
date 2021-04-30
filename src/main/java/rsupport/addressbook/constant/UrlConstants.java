@@ -1,7 +1,11 @@
 package rsupport.addressbook.constant;
 
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UrlConstants {
-    public final static String SYNCHRONIZE = "/synchronize";
-    public final static String MEMBERS = "/members";
-    public final static String ORGANIZATION_CHART = "/chart";
+    public static final String SYNCHRONIZE = "/synchronize";
+    public static final String MEMBERS = "/members";
+    public static final String ORGANIZATION_CHART = "/chart";
 }

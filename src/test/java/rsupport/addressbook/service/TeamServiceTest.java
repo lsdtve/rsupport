@@ -27,7 +27,7 @@ public class TeamServiceTest {
     @Autowired private EntityManager em;
 
     @Test
-    public void 조직도_팀_이름정렬() throws Exception {
+    public void 조직도_팀_이름정렬() {
         //given
         String[] teamNameList = {"웹개발2팀", "웹개발1팀", "웹개발4팀", "웹개발3팀","인사팀","총무팀","기획팀"};
 
@@ -47,10 +47,10 @@ public class TeamServiceTest {
         for (int i = 0; i < teamNameList.length ; i++) {
             Assert.assertEquals(teamNameList[i], teamList.get(i).getTeamName());
         }
-     }
+    }
 
     @Test
-    public void 조직도_팀장_상위체크() throws Exception {
+    public void 조직도_팀장_상위체크() {
         //given
         memberService.save(MemberCreateForm.builder().name("사").teamName("웹개발1팀").position("팀원").build());
         memberService.save(MemberCreateForm.builder().name("가").teamName("웹개발1팀").position("팀원").build());
@@ -66,33 +66,33 @@ public class TeamServiceTest {
 
         //then
         Assert.assertEquals("팀장", firstMember.getPosition());
-     }
+    }
 
-     @Test
-     public void 조직도_팀원_이름정렬() throws Exception {
-         //given
-         String[] memberNameList = {"배용균", "홍길동", "이순신", "장도연", "강호동", "유재석"};
+    @Test
+    public void 조직도_팀원_이름정렬() {
+        //given
+        String[] memberNameList = {"배용균", "홍길동", "이순신", "장도연", "강호동", "유재석"};
 
-         for (String name : memberNameList) {
-             memberService.save(MemberCreateForm.builder()
-                     .name(name)
-                     .position("팀원")
-                     .build());
-         }
+        for (String name : memberNameList) {
+            memberService.save(MemberCreateForm.builder()
+                .name(name)
+                .position("팀원")
+                .build());
+        }
 
-         Arrays.sort(memberNameList);
+        Arrays.sort(memberNameList);
 
-         em.flush();
-         em.clear();
+        em.flush();
+        em.clear();
 
-         //when
-         List<OrganizationChartTeamDto> findChart = teamService.findOrganizationChart();
-         List<OrganizationChartMemberDto> members = findChart.get(0).getMembers();
+        //when
+        List<OrganizationChartTeamDto> findChart = teamService.findOrganizationChart();
+        List<OrganizationChartMemberDto> members = findChart.get(0).getMembers();
 
-         //then
-         for (int i = 0; i < memberNameList.length; i++) {
-             Assert.assertEquals(memberNameList[i], members.get(i).getName());
-         }
-      }
+        //then
+        for (int i = 0; i < memberNameList.length; i++) {
+            Assert.assertEquals(memberNameList[i], members.get(i).getName());
+        }
+    }
 
 }

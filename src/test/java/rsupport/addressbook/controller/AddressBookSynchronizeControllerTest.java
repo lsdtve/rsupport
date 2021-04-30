@@ -24,5 +24,5 @@ public class AddressBookSynchronizeControllerTest {
     public void 주소록_동기화() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get(UrlConstants.SYNCHRONIZE))
                 .andExpect(MockMvcResultMatchers.status().isOk());
-     }
+    }
 }
