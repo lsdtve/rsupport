@@ -1,4 +1,3 @@
-
 package rsupport.addressbook.repository;
 
 import org.springframework.data.repository.CrudRepository;

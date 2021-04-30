@@ -1,9 +1,7 @@
-
 package rsupport.addressbook.service;
 
 import java.util.List;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -65,7 +63,7 @@ public class MemberServiceTest {
 
         //then
         for (MemberDto member : findMembers) {
-            Assert.assertTrue(!member.getName().contains(seachWord));
+            Assert.assertFalse(member.getName().contains(seachWord));
         }
     }
 
@@ -83,7 +81,6 @@ public class MemberServiceTest {
         em.flush();
         em.clear();
 
-        Team findTeam = teamRepository.findByName("총무팀").get();
         String searchWord = "총무";
 
         //when

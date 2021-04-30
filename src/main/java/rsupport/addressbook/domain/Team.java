@@ -1,4 +1,3 @@
-
 package rsupport.addressbook.domain;
 
 import java.util.List;

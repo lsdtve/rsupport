@@ -1,4 +1,3 @@
-
 package rsupport.addressbook.util;
 
 import lombok.RequiredArgsConstructor;

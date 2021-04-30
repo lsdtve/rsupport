@@ -1,4 +1,3 @@
-
 package rsupport.addressbook.exception;
 
 import org.springframework.http.HttpStatus;

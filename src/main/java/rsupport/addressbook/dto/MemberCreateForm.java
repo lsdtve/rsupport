@@ -1,4 +1,3 @@
-
 package rsupport.addressbook.dto;
 
 import java.util.StringTokenizer;

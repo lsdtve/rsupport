@@ -1,4 +1,3 @@
-
 package rsupport.addressbook.constant;
 
 public class UrlConstants {

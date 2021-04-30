@@ -1,4 +1,3 @@
-
 package rsupport.addressbook.repository;
 
 import com.querydsl.core.BooleanBuilder;
