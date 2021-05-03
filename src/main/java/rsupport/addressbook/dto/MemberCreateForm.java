@@ -4,6 +4,7 @@ import java.util.StringTokenizer;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import rsupport.addressbook.domain.Position;
 
 @Getter
 @Setter
@@ -13,7 +14,7 @@ public class MemberCreateForm {
     private String phone;
     private String teamName;
     private String grade;
-    private String position;
+    private Position position;
 
     @Builder
     public MemberCreateForm(String name, String number, String phone, String teamName, String grade, String position) {
@@ -22,7 +23,7 @@ public class MemberCreateForm {
         this.phone = phone;
         this.teamName = teamName;
         this.grade = grade;
-        this.position = position;
+        this.position = Position.getLeaderOrElseMember(position);
     }
 
     public MemberCreateForm(String str) {
@@ -33,6 +34,6 @@ public class MemberCreateForm {
         this.phone = st.nextToken().trim();
         this.teamName = st.nextToken().trim();
         this.grade = st.nextToken().trim();
-        this.position = st.hasMoreTokens() ? st.nextToken().trim() : "팀원";
+        this.position = st.hasMoreTokens() ? Position.getLeaderOrElseMember(st.nextToken().trim()) : Position.MEMBER;
     }
 }

@@ -28,7 +28,7 @@ public class TeamService {
 
         List<Sort.Order> orders = new ArrayList<>();
         orders.add(new Sort.Order(Sort.Direction.ASC, "name"));
-        orders.add(new Sort.Order(Sort.Direction.DESC,"members.position"));
+        orders.add(new Sort.Order(Sort.Direction.ASC,"members.position"));
         orders.add(new Sort.Order(Sort.Direction.ASC,"members.name"));
 
         List<Team> teamList = teamRepository.findAll(Sort.by(orders));

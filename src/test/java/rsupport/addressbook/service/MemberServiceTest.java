@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 import rsupport.addressbook.domain.Member;
+import rsupport.addressbook.domain.Position;
 import rsupport.addressbook.domain.Team;
 import rsupport.addressbook.dto.MemberCreateForm;
 import rsupport.addressbook.dto.MemberDto;
@@ -48,10 +49,10 @@ public class MemberServiceTest {
         Team team = Team.builder().name("웹개발1팀").build();
         teamRepository.save(team);
 
-        memberRepository.save(Member.builder().name("AKim").team(team).build());
-        memberRepository.save(Member.builder().name("KimSu").team(team).build());
-        memberRepository.save(Member.builder().name("Bae").team(team).build());
-        memberRepository.save(Member.builder().name("Mark").team(team).build());
+        memberRepository.save(Member.builder().name("AKim").team(team).position(Position.MEMBER).build());
+        memberRepository.save(Member.builder().name("KimSu").team(team).position(Position.MEMBER).build());
+        memberRepository.save(Member.builder().name("Bae").team(team).position(Position.MEMBER).build());
+        memberRepository.save(Member.builder().name("Mark").team(team).position(Position.MEMBER).build());
 
         em.flush();
         em.clear();
@@ -74,9 +75,9 @@ public class MemberServiceTest {
         Team team2 = Team.builder().name("총무팀").build();
         teamRepository.save(team1);
         teamRepository.save(team2);
-        memberRepository.save(Member.builder().team(team1).build());
-        memberRepository.save(Member.builder().team(team2).build());
-        memberRepository.save(Member.builder().team(team2).build());
+        memberRepository.save(Member.builder().team(team1).position(Position.MEMBER).build());
+        memberRepository.save(Member.builder().team(team2).position(Position.MEMBER).build());
+        memberRepository.save(Member.builder().team(team2).position(Position.MEMBER).build());
 
         em.flush();
         em.clear();
@@ -97,9 +98,9 @@ public class MemberServiceTest {
         //given
         Team team = Team.builder().name("웹개발1팀").build();
         teamRepository.save(team);
-        memberRepository.save(Member.builder().number("1001").team(team).build());
-        memberRepository.save(Member.builder().number("1002").team(team).build());
-        memberRepository.save(Member.builder().number("1004").team(team).build());
+        memberRepository.save(Member.builder().number("1001").team(team).position(Position.MEMBER).build());
+        memberRepository.save(Member.builder().number("1002").team(team).position(Position.MEMBER).build());
+        memberRepository.save(Member.builder().number("1004").team(team).position(Position.MEMBER).build());
 
         em.flush();
         em.clear();
@@ -120,10 +121,10 @@ public class MemberServiceTest {
         //given
         Team team = Team.builder().name("웹개발1팀").build();
         teamRepository.save(team);
-        memberRepository.save(Member.builder().phone("010-0000-0000").team(team).build());
-        memberRepository.save(Member.builder().phone("010-1111-1111").team(team).build());
-        memberRepository.save(Member.builder().phone("010-2222-2222").team(team).build());
-        memberRepository.save(Member.builder().phone("010-3333-3333").team(team).build());
+        memberRepository.save(Member.builder().phone("010-0000-0000").team(team).position(Position.MEMBER).build());
+        memberRepository.save(Member.builder().phone("010-1111-1111").team(team).position(Position.MEMBER).build());
+        memberRepository.save(Member.builder().phone("010-2222-2222").team(team).position(Position.MEMBER).build());
+        memberRepository.save(Member.builder().phone("010-3333-3333").team(team).position(Position.MEMBER).build());
 
         String searchWord = "2222";
 

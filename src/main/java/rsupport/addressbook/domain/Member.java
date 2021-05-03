@@ -3,6 +3,8 @@ package rsupport.addressbook.domain;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -34,10 +36,11 @@ public class Member {
 
     private String grade;
 
-    private String position;
+    @Enumerated(value = EnumType.STRING)
+    private Position position;
 
     @Builder
-    public Member(String originalName, String name, String number, String phone, Team team, String grade, String position) {
+    public Member(String originalName, String name, String number, String phone, Team team, String grade, Position position) {
         this.originalName = originalName;
         this.name = name;
         this.number = number;

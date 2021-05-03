@@ -18,6 +18,6 @@ public class OrganizationChartMemberDto {
         this.number = member.getNumber();
         this.phone = member.getPhone();
         this.grade = member.getGrade();
-        this.position = member.getPosition();
+        this.position = member.getPosition().getTitle();
     }
 }
