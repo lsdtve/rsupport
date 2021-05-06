@@ -7,19 +7,19 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import rsupport.addressbook.constant.UrlConstants;
-import rsupport.addressbook.service.TeamService;
+import rsupport.addressbook.service.OriganizationChartService;
 
 @RestController
 @RequiredArgsConstructor
 public class OrganizationChartController {
 
-    private final TeamService teamService;
+    private final OriganizationChartService origanizationService;
 
     @GetMapping(value = UrlConstants.ORGANIZATION_CHART)
     public ResponseEntity<Map<String, Object>> getOrganizationChart() {
         Map<String, Object> data = new HashMap<>();
 
-        data.put("teamList", teamService.findOrganizationChart());
+        data.put("teamList", origanizationService.findOrganizationChart());
 
         return ResponseEntity.ok().body(data);
     }

@@ -15,13 +15,13 @@ import rsupport.addressbook.constant.UrlConstants;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class MemberControllerTest {
+class MemberControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    public void findAll() throws Exception {
+    void findAll() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get(UrlConstants.MEMBERS))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
@@ -29,7 +29,7 @@ public class MemberControllerTest {
     }
 
     @Test
-    public void search_member() throws Exception {
+    void search_member() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get(UrlConstants.MEMBERS).param("searchWord","홍길동"))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))

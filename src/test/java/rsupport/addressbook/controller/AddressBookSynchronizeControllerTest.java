@@ -16,12 +16,12 @@ import rsupport.addressbook.constant.UrlConstants;
 @SpringBootTest
 @AutoConfigureMockMvc
 @Transactional
-public class AddressBookSynchronizeControllerTest {
+class AddressBookSynchronizeControllerTest {
 
     @Autowired private MockMvc mockMvc;
 
     @Test
-    public void 주소록_동기화() throws Exception {
+    void 주소록_동기화() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get(UrlConstants.SYNCHRONIZE))
             .andExpect(MockMvcResultMatchers.status().isOk());
     }

@@ -21,7 +21,7 @@ import rsupport.addressbook.util.PropertyUtils;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @Transactional
-public class AddressBookSynchronizeServiceTest {
+class AddressBookSynchronizeServiceTest {
 
     @Autowired private PropertyUtils propertyUtils;
     @Autowired private AddressBookSynchronizeService addressBookSynchronizeService;
@@ -30,7 +30,7 @@ public class AddressBookSynchronizeServiceTest {
     @Autowired private TeamRepository teamRepository;
 
     @Test
-    public void dbInit() {
+    void dbInit() {
         //given
         List<MemberCreateForm> memberCreateFormList = FileUtils.readCsvFile(propertyUtils.getAddressbookFilePath())
                 .map(MemberCreateForm::new)
@@ -55,7 +55,7 @@ public class AddressBookSynchronizeServiceTest {
     }
 
     @Test
-    public void removeAll() {
+    void removeAll() {
         //given
         Team team = Team.builder().name("웹개발1팀").build();
 

@@ -23,7 +23,7 @@ import rsupport.addressbook.repository.TeamRepository;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @Transactional
-public class MemberServiceTest {
+class MemberServiceTest {
 
     @Autowired private MemberService memberService;
     @Autowired private MemberRepository memberRepository;
@@ -31,7 +31,7 @@ public class MemberServiceTest {
     @Autowired private EntityManager em;
 
     @Test
-    public void 이름_중복_체크() {
+    void 이름_중복_체크() {
         //given
         String name = "홍길동";
         String[] nameAddList = {"", "(B)", "(C)", "(D)","(E)"};
@@ -47,7 +47,7 @@ public class MemberServiceTest {
     }
 
     @Test
-    public void 맴버_이름검색() {
+    void 맴버_이름검색() {
         //given
         Team team = Team.builder().name("웹개발1팀").build();
         teamRepository.save(team);
@@ -72,7 +72,7 @@ public class MemberServiceTest {
     }
 
     @Test
-    public void 맴버_팀명검색() {
+    void 맴버_팀명검색() {
         //given
         Team team1 = Team.builder().name("웹개발1팀").build();
         Team team2 = Team.builder().name("총무팀").build();
@@ -97,7 +97,7 @@ public class MemberServiceTest {
     }
 
     @Test
-    public void 맴버_내선번호검색() {
+    void 맴버_내선번호검색() {
         //given
         Team team = Team.builder().name("웹개발1팀").build();
         teamRepository.save(team);
@@ -120,7 +120,7 @@ public class MemberServiceTest {
     }
 
     @Test
-    public void 맴버_전화번호검색() {
+    void 맴버_전화번호검색() {
         //given
         Team team = Team.builder().name("웹개발1팀").build();
         teamRepository.save(team);

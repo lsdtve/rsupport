@@ -15,12 +15,12 @@ import rsupport.addressbook.exception.BaseException;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @Transactional
-public class FileUtilsTest {
+class FileUtilsTest {
 
     @Autowired private PropertyUtils propertyUtils;
 
     @Test
-    public void csv_파일읽기() {
+    void csv_파일읽기() {
         //given
 
         //when
@@ -33,7 +33,7 @@ public class FileUtilsTest {
     }
 
     @Test
-    public void csv_파일_notFound() {
+    void csv_파일_notFound() {
         //given
 
         //when

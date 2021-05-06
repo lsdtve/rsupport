@@ -15,13 +15,13 @@ import rsupport.addressbook.constant.UrlConstants;
 @ExtendWith(SpringExtension.class)
 @SpringBootTest
 @AutoConfigureMockMvc
-public class OrganizationChartControllerTest {
+class OrganizationChartControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
 
     @Test
-    public void 조직도_확인() throws Exception {
+    void 조직도_확인() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get(UrlConstants.ORGANIZATION_CHART))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
