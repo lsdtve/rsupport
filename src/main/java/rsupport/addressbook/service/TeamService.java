@@ -8,7 +8,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import rsupport.addressbook.domain.Team;
 import rsupport.addressbook.dto.OrganizationChartTeamDto;
-import rsupport.addressbook.dto.TeamCreateForm;
 import rsupport.addressbook.repository.TeamRepository;
 
 @Service
@@ -16,13 +15,6 @@ import rsupport.addressbook.repository.TeamRepository;
 public class TeamService {
 
     private final TeamRepository teamRepository;
-
-    public Team save(TeamCreateForm form) {
-        Team team = Team.builder()
-            .name(form.getName())
-            .build();
-        return teamRepository.save(team);
-    }
 
     public List<OrganizationChartTeamDto> findOrganizationChart() {
 
@@ -37,4 +29,11 @@ public class TeamService {
                 .map(OrganizationChartTeamDto::new)
                 .collect(Collectors.toList());
     }
+
+    public Team findTeamOrElseNewTeam(String teamName) {
+        return teamRepository.findByName(teamName).orElseGet(() ->
+                Team.builder().name(teamName).build()
+            );
+    }
+
 }

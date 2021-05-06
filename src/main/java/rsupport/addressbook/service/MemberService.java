@@ -15,12 +15,10 @@ import rsupport.addressbook.repository.TeamRepository;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final TeamRepository teamRepository;
+    private final TeamService teamService;
 
     public Member save(MemberCreateForm form) {
-        Team team = teamRepository.findByName(form.getTeamName()).orElseGet(() ->
-                Team.builder().name(form.getTeamName()).build()
-        );
+        Team team = teamService.findTeamOrElseNewTeam(form.getTeamName());
 
         Member member = Member.builder()
                 .originalName(form.getName())
