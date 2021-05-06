@@ -11,8 +11,8 @@ import rsupport.addressbook.dto.OrganizationChartTeamDto;
 import rsupport.addressbook.dto.TeamCreateForm;
 import rsupport.addressbook.repository.TeamRepository;
 
-@RequiredArgsConstructor
 @Service
+@RequiredArgsConstructor
 public class TeamService {
 
     private final TeamRepository teamRepository;

@@ -1,13 +1,16 @@
 package rsupport.addressbook.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import java.util.List;
 import javax.persistence.EntityManager;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import rsupport.addressbook.domain.Member;
 import rsupport.addressbook.domain.Position;
@@ -17,7 +20,7 @@ import rsupport.addressbook.dto.MemberDto;
 import rsupport.addressbook.repository.MemberRepository;
 import rsupport.addressbook.repository.TeamRepository;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @Transactional
 public class MemberServiceTest {
@@ -38,8 +41,8 @@ public class MemberServiceTest {
             Member member = memberService.save(MemberCreateForm.builder().name(name).build());
 
             //then
-            Assert.assertEquals(member.getName(), name + s);
-            Assert.assertEquals(member.getOriginalName(), name);
+            assertEquals(member.getName(), name + s);
+            assertEquals(member.getOriginalName(), name);
         }
     }
 
@@ -64,7 +67,7 @@ public class MemberServiceTest {
 
         //then
         for (MemberDto member : findMembers) {
-            Assert.assertFalse(member.getName().contains(seachWord));
+            assertFalse(member.getName().contains(seachWord));
         }
     }
 
@@ -89,7 +92,7 @@ public class MemberServiceTest {
 
         //then
         for (MemberDto member : findMembers) {
-            Assert.assertTrue(member.getTeamName().contains(searchWord));
+            assertTrue(member.getTeamName().contains(searchWord));
         }
     }
 
@@ -112,7 +115,7 @@ public class MemberServiceTest {
 
         //then
         for (MemberDto member : findMembers) {
-            Assert.assertTrue(member.getNumber().contains(searchWord));
+            assertTrue(member.getNumber().contains(searchWord));
         }
     }
 
@@ -133,7 +136,7 @@ public class MemberServiceTest {
 
         //then
         for (MemberDto member : findMembers) {
-            Assert.assertTrue(member.getPhone().contains(searchWord));
+            assertTrue(member.getPhone().contains(searchWord));
         }
     }
 }

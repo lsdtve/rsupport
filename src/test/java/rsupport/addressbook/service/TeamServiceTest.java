@@ -1,14 +1,15 @@
 package rsupport.addressbook.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.Arrays;
 import java.util.List;
 import javax.persistence.EntityManager;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import rsupport.addressbook.domain.Team;
 import rsupport.addressbook.dto.MemberCreateForm;
@@ -16,7 +17,7 @@ import rsupport.addressbook.dto.OrganizationChartMemberDto;
 import rsupport.addressbook.dto.OrganizationChartTeamDto;
 import rsupport.addressbook.repository.TeamRepository;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @Transactional
 public class TeamServiceTest {
@@ -45,7 +46,7 @@ public class TeamServiceTest {
 
         //then
         for (int i = 0; i < teamNameList.length ; i++) {
-            Assert.assertEquals(teamNameList[i], teamList.get(i).getTeamName());
+            assertEquals(teamNameList[i], teamList.get(i).getTeamName());
         }
     }
 
@@ -65,7 +66,7 @@ public class TeamServiceTest {
         OrganizationChartMemberDto firstMember = findChart.get(0).getMembers().get(0);
 
         //then
-        Assert.assertEquals("팀장", firstMember.getPosition());
+        assertEquals("팀장", firstMember.getPosition());
     }
 
     @Test
@@ -91,7 +92,7 @@ public class TeamServiceTest {
 
         //then
         for (int i = 0; i < memberNameList.length; i++) {
-            Assert.assertEquals(memberNameList[i], members.get(i).getName());
+            assertEquals(memberNameList[i], members.get(i).getName());
         }
     }
 

@@ -1,13 +1,14 @@
 package rsupport.addressbook.service;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import java.util.List;
 import java.util.stream.Collectors;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import rsupport.addressbook.domain.Member;
 import rsupport.addressbook.domain.Team;
@@ -17,12 +18,11 @@ import rsupport.addressbook.repository.TeamRepository;
 import rsupport.addressbook.util.FileUtils;
 import rsupport.addressbook.util.PropertyUtils;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @Transactional
 public class AddressBookSynchronizeServiceTest {
 
-    @Autowired private FileUtils fileUtils;
     @Autowired private PropertyUtils propertyUtils;
     @Autowired private AddressBookSynchronizeService addressBookSynchronizeService;
     @Autowired private MemberService memberService;
@@ -32,7 +32,7 @@ public class AddressBookSynchronizeServiceTest {
     @Test
     public void dbInit() {
         //given
-        List<MemberCreateForm> memberCreateFormList = fileUtils.readCsvFile(propertyUtils.getAddressbookFilePath())
+        List<MemberCreateForm> memberCreateFormList = FileUtils.readCsvFile(propertyUtils.getAddressbookFilePath())
                 .map(MemberCreateForm::new)
                 .collect(Collectors.toList());
 
@@ -45,12 +45,12 @@ public class AddressBookSynchronizeServiceTest {
         for (int i=0 ; i < memberCreateFormList.size() ; i++) {
             MemberCreateForm form = memberCreateFormList.get(i);
             Member saveMember = saveMembers.get(i);
-            Assert.assertEquals(form.getName(), saveMember.getOriginalName());
-            Assert.assertEquals(form.getGrade(), saveMember.getGrade());
-            Assert.assertEquals(form.getNumber(), saveMember.getNumber());
-            Assert.assertEquals(form.getPhone(), saveMember.getPhone());
-            Assert.assertEquals(form.getPosition(), saveMember.getPosition());
-            Assert.assertEquals(form.getTeamName(), saveMember.getTeam().getName());
+            assertEquals(form.getName(), saveMember.getOriginalName());
+            assertEquals(form.getGrade(), saveMember.getGrade());
+            assertEquals(form.getNumber(), saveMember.getNumber());
+            assertEquals(form.getPhone(), saveMember.getPhone());
+            assertEquals(form.getPosition(), saveMember.getPosition());
+            assertEquals(form.getTeamName(), saveMember.getTeam().getName());
         }
     }
 
@@ -66,8 +66,8 @@ public class AddressBookSynchronizeServiceTest {
         addressBookSynchronizeService.dbClearAll();
 
         //then
-        Assert.assertEquals(0, memberRepository.count());
-        Assert.assertEquals(0, teamRepository.count());
+        assertEquals(0, memberRepository.count());
+        assertEquals(0, teamRepository.count());
     }
 
 }

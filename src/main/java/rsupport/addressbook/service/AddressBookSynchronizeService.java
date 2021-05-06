@@ -13,7 +13,6 @@ import rsupport.addressbook.util.PropertyUtils;
 @RequiredArgsConstructor
 public class AddressBookSynchronizeService {
 
-    private final FileUtils fileUtils;
     private final PropertyUtils propertyUtils;
     private final MemberService memberService;
     private final MemberRepository memberRepository;
@@ -26,9 +25,9 @@ public class AddressBookSynchronizeService {
     }
 
     public void dbInit() {
-        fileUtils.readCsvFile(propertyUtils.getAddressbookFilePath())
-                .map(MemberCreateForm::new)
-                .forEach(memberService::save);
+        FileUtils.readCsvFile(propertyUtils.getAddressbookFilePath())
+            .map(MemberCreateForm::new)
+            .forEach(memberService::save);
     }
 
     public void dbClearAll() {

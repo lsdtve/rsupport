@@ -1,18 +1,11 @@
 package rsupport.addressbook.util;
 
-import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.PropertySource;
-import org.springframework.core.env.Environment;
-import org.springframework.stereotype.Component;
+import lombok.Getter;
+import org.springframework.beans.factory.annotation.Value;
 
-@Component
-@RequiredArgsConstructor
-@PropertySource("classpath:application.yml")
+@Getter
 public class PropertyUtils {
 
-    private final Environment environment;
-
-    public String getAddressbookFilePath() {
-        return environment.getProperty("addressbook.file.path");
-    }
+    @Value("${custom.addressbook.file.path}")
+    private String addressbookFilePath;
 }

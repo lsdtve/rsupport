@@ -9,15 +9,17 @@ import rsupport.addressbook.domain.QMember;
 import rsupport.addressbook.domain.QTeam;
 import rsupport.addressbook.dto.MemberDto;
 
-public class CustomMemberRepositoryImpl extends QuerydslRepositorySupport implements CustomMemberRepository {
+public class MemberCustomRepositoryImpl extends QuerydslRepositorySupport implements
+	MemberCustomRepository {
 
-    public CustomMemberRepositoryImpl() {
+    public MemberCustomRepositoryImpl() {
         super(Member.class);
     }
 
     @Override
     public List<MemberDto> searchMembers(String searchWord) {
         QMember member = QMember.member;
+        QTeam team = QTeam.team;
 
         BooleanBuilder builder = new BooleanBuilder();
         if (searchWord!=null) {
@@ -29,7 +31,7 @@ public class CustomMemberRepositoryImpl extends QuerydslRepositorySupport implem
 
         return from(member)
                 .select(Projections.constructor(MemberDto.class, member.name, member.number, member.phone, member.team.name, member.grade, member.position))
-                .join(member.team, QTeam.team)
+                .join(member.team, team)
                 .where(builder)
                 .fetch();
     }

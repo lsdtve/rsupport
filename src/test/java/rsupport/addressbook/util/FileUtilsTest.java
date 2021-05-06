@@ -1,49 +1,47 @@
 package rsupport.addressbook.util;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.fail;
+
 import java.util.stream.Stream;
-import org.junit.Assert;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
 import rsupport.addressbook.exception.BaseException;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest
 @Transactional
 public class FileUtilsTest {
 
     @Autowired private PropertyUtils propertyUtils;
-    @Autowired private FileUtils fileUtils;
 
     @Test
     public void csv_파일읽기() {
         //given
 
         //when
-        Stream<String> result = fileUtils.readCsvFile(propertyUtils.getAddressbookFilePath());
+        Stream<String> result = FileUtils.readCsvFile(propertyUtils.getAddressbookFilePath());
 
         //then
         if (result==null) {
-            Assert.fail();
+            fail();
         }
     }
 
-    @Test(expected = BaseException.class)
+    @Test
     public void csv_파일_notFound() {
         //given
-        String notFoundPath = "./file/not/found/path/memeber.csv";
-        Path filePath = Paths.get(notFoundPath);
 
         //when
-        fileUtils.readCsvFile(notFoundPath);
+        assertThrows(BaseException.class, () -> {
+            FileUtils.readCsvFile(null);
+        });
 
         //then
-        Assert.fail();
     }
 
 }
