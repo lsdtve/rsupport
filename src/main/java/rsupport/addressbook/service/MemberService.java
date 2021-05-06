@@ -8,7 +8,6 @@ import rsupport.addressbook.domain.Team;
 import rsupport.addressbook.dto.MemberCreateForm;
 import rsupport.addressbook.dto.MemberDto;
 import rsupport.addressbook.repository.MemberRepository;
-import rsupport.addressbook.repository.TeamRepository;
 
 @RequiredArgsConstructor
 @Service
