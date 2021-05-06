@@ -1,12 +1,10 @@
 package rsupport.addressbook.service;
 
-import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import rsupport.addressbook.domain.Member;
 import rsupport.addressbook.domain.Team;
 import rsupport.addressbook.dto.MemberCreateForm;
-import rsupport.addressbook.dto.MemberDto;
 import rsupport.addressbook.repository.MemberRepository;
 
 @RequiredArgsConstructor
@@ -41,7 +39,4 @@ public class MemberService {
         return String.format("%s(%c)", name, sameNameCount+'A');
     }
 
-    public List<MemberDto> search(String searchWord) {
-        return memberRepository.searchMembers(searchWord);
-    }
 }

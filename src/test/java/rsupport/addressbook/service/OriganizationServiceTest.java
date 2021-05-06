@@ -23,7 +23,7 @@ import rsupport.addressbook.repository.TeamRepository;
 class OriganizationServiceTest {
 
 	@Autowired private MemberService memberService;
-	@Autowired private OriganizationChartService origanizationService;
+	@Autowired private OrganizationChartService origanizationService;
 	@Autowired private TeamRepository teamRepository;
 	@Autowired private EntityManager em;
 
@@ -42,7 +42,7 @@ class OriganizationServiceTest {
 		em.clear();
 
 		//when
-		List<OrganizationChartTeamDto> teamList = origanizationService.findOrganizationChart();
+		List<OrganizationChartTeamDto> teamList = origanizationService.findOrganizationChart(null);
 
 		//then
 		for (int i = 0; i < teamNameList.length ; i++) {
@@ -62,7 +62,7 @@ class OriganizationServiceTest {
 		em.clear();
 
 		//when
-		List<OrganizationChartTeamDto> findChart = origanizationService.findOrganizationChart();
+		List<OrganizationChartTeamDto> findChart = origanizationService.findOrganizationChart(null);
 		OrganizationChartMemberDto firstMember = findChart.get(0).getMembers().get(0);
 
 		//then
@@ -87,7 +87,7 @@ class OriganizationServiceTest {
 		em.clear();
 
 		//when
-		List<OrganizationChartTeamDto> findChart = origanizationService.findOrganizationChart();
+		List<OrganizationChartTeamDto> findChart = origanizationService.findOrganizationChart(null);
 		List<OrganizationChartMemberDto> members = findChart.get(0).getMembers();
 
 		//then

@@ -5,7 +5,7 @@ import java.util.stream.Collectors;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import rsupport.addressbook.domain.Team;
+import rsupport.addressbook.domain.Member;
 
 @Getter
 @Setter
@@ -14,10 +14,10 @@ public class OrganizationChartTeamDto {
     private String teamName;
     private List<OrganizationChartMemberDto> members;
 
-    public OrganizationChartTeamDto(Team team) {
-        this.teamName = team.getName();
-        this.members = team.getMembers().stream()
-                .map(OrganizationChartMemberDto::new)
-                .collect(Collectors.toList());
+    public OrganizationChartTeamDto(String teamName, List<Member> members) {
+        this.teamName = teamName;
+        this.members = members.stream()
+            .map(OrganizationChartMemberDto::new)
+            .collect(Collectors.toList());
     }
 }

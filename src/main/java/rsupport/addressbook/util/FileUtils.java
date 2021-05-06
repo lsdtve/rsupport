@@ -4,9 +4,12 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Paths;
 import java.util.stream.Stream;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 import rsupport.addressbook.exception.BaseException;
 import rsupport.addressbook.exception.ExceptionCode;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class FileUtils {
 
     public static Stream<String> readCsvFile(String path) {
