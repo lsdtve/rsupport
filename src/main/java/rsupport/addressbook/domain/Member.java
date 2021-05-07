@@ -30,7 +30,7 @@ public class Member {
     private String number;
     private String phone;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false, cascade = CascadeType.PERSIST)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinColumn(name = "team_id")
     private Team team;
 
@@ -48,5 +48,14 @@ public class Member {
         this.team = team;
         this.grade = grade;
         this.position = position;
+    }
+
+    public Member changeTeam(Team team) {
+        if (!team.getMembers().isEmpty()) {
+            team.getMembers().remove(this);
+        }
+        this.team = team;
+        team.getMembers().add(this);
+        return this;
     }
 }

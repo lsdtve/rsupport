@@ -37,8 +37,8 @@ public class OrganizationChartRepository {
 		}
 
 		LinkedHashMap<String, List<Member>> transform = (LinkedHashMap<String, List<Member>>) query
-			.from(team)
-			.leftJoin(team.members, member)
+			.from(member)
+			.leftJoin(member.team, team)
 			.where(builder)
 			.orderBy(team.name.asc(), member.position.asc(), member.name.asc())
 			.transform(groupBy(team.name).as(list(member)));

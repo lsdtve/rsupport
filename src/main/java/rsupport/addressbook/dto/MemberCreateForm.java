@@ -1,7 +1,6 @@
 package rsupport.addressbook.dto;
 
 import java.util.StringTokenizer;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
 import rsupport.addressbook.domain.Position;
@@ -15,16 +14,6 @@ public class MemberCreateForm {
     private String teamName;
     private String grade;
     private Position position;
-
-    @Builder
-    public MemberCreateForm(String name, String number, String phone, String teamName, String grade, String position) {
-        this.name = name;
-        this.number = number;
-        this.phone = phone;
-        this.teamName = teamName;
-        this.grade = grade;
-        this.position = Position.getLeaderOrElseMember(position);
-    }
 
     public MemberCreateForm(String str) {
         StringTokenizer st = new StringTokenizer(str, ",");

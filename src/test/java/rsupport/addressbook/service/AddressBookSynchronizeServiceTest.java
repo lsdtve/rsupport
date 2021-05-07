@@ -28,6 +28,7 @@ class AddressBookSynchronizeServiceTest {
     @Autowired private MemberService memberService;
     @Autowired private MemberRepository memberRepository;
     @Autowired private TeamRepository teamRepository;
+    @Autowired private TeamService teamService;
 
     @Test
     void dbInit() {
@@ -38,8 +39,23 @@ class AddressBookSynchronizeServiceTest {
 
         //when
         List<Member> saveMembers = memberCreateFormList.stream()
-                .map(memberService::save)
+                .map(form -> {
+                    Team team = teamService.findTeamOrElseNewTeam(form.getTeamName());
+
+                    Member member = Member.builder()
+                        .originalName(form.getName())
+                        .name(memberService.duplicateName(form.getName()))
+                        .number(form.getNumber())
+                        .phone(form.getPhone())
+                        .team(team)
+                        .grade(form.getGrade())
+                        .position(form.getPosition())
+                        .build();
+
+                    return memberService.save(member);
+                })
                 .collect(Collectors.toList());
+
 
         //then
         for (int i=0 ; i < memberCreateFormList.size() ; i++) {

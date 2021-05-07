@@ -11,8 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.transaction.annotation.Transactional;
+import rsupport.addressbook.domain.Member;
+import rsupport.addressbook.domain.Position;
 import rsupport.addressbook.domain.Team;
-import rsupport.addressbook.dto.MemberCreateForm;
 import rsupport.addressbook.dto.OrganizationChartMemberDto;
 import rsupport.addressbook.dto.OrganizationChartTeamDto;
 import rsupport.addressbook.repository.TeamRepository;
@@ -53,10 +54,12 @@ class OriganizationServiceTest {
 	@Test
 	void 조직도_팀장_상위체크() {
 		//given
-		memberService.save(MemberCreateForm.builder().name("사").teamName("웹개발1팀").position("팀원").build());
-		memberService.save(MemberCreateForm.builder().name("가").teamName("웹개발1팀").position("팀원").build());
-		memberService.save(MemberCreateForm.builder().name("나").teamName("웹개발1팀").position("팀장").build());
-		memberService.save(MemberCreateForm.builder().name("라").teamName("웹개발1팀").position("팀원").build());
+		Team team = Team.builder().name("웹개발1팀").build();
+
+		memberService.save(Member.builder().name("사").team(team).position(Position.MEMBER).build());
+		memberService.save(Member.builder().name("가").team(team).position(Position.MEMBER).build());
+		memberService.save(Member.builder().name("다").team(team).position(Position.LEADER).build());
+		memberService.save(Member.builder().name("").team(team).position(Position.MEMBER).build());
 
 		em.flush();
 		em.clear();
@@ -73,11 +76,13 @@ class OriganizationServiceTest {
 	void 조직도_팀원_이름정렬() {
 		//given
 		String[] memberNameList = {"배용균", "홍길동", "이순신", "장도연", "강호동", "유재석"};
+		Team team = Team.builder().name("웹개발1팀").build();
 
 		for (String name : memberNameList) {
-			memberService.save(MemberCreateForm.builder()
+			memberService.save(Member.builder()
 				.name(name)
-				.position("팀원")
+				.position(Position.MEMBER)
+				.team(team)
 				.build());
 		}
 

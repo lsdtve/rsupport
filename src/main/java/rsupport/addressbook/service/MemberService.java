@@ -4,7 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import rsupport.addressbook.domain.Member;
 import rsupport.addressbook.domain.Team;
-import rsupport.addressbook.dto.MemberCreateForm;
 import rsupport.addressbook.repository.MemberRepository;
 
 @RequiredArgsConstructor
@@ -12,20 +11,8 @@ import rsupport.addressbook.repository.MemberRepository;
 public class MemberService {
 
     private final MemberRepository memberRepository;
-    private final TeamService teamService;
 
-    public Member save(MemberCreateForm form) {
-        Team team = teamService.findTeamOrElseNewTeam(form.getTeamName());
-
-        Member member = Member.builder()
-                .originalName(form.getName())
-                .name(duplicateName(form.getName()))
-                .number(form.getNumber())
-                .phone(form.getPhone())
-                .team(team)
-                .grade(form.getGrade())
-                .position(form.getPosition())
-                .build();
+    public Member save(Member member) {
         return memberRepository.save(member);
     }
 
