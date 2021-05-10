@@ -1,9 +1,13 @@
 package rsupport.addressbook.service;
 
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import rsupport.addressbook.domain.Member;
-import rsupport.addressbook.domain.Team;
+import rsupport.addressbook.dto.OrganizationChartTeamDto;
 import rsupport.addressbook.repository.MemberRepository;
 
 @RequiredArgsConstructor
@@ -17,7 +21,7 @@ public class MemberService {
     }
 
     public String duplicateName(String name) {
-        int sameNameCount = memberRepository.countByOriginalName(name);
+        int sameNameCount = memberRepository.countByNameStartingWith(name);
 
         if (sameNameCount==0) {
             return name;
@@ -26,4 +30,27 @@ public class MemberService {
         return String.format("%s(%c)", name, sameNameCount+'A');
     }
 
+    @Transactional(readOnly = true)
+    public List<OrganizationChartTeamDto> getOrganizationChart(String searchWord) {
+
+        return memberRepository.findAllBySearchWord(searchWord).stream()
+            .collect(Collectors.groupingBy(member -> member.getTeam().getName(),
+                LinkedHashMap::new,
+                Collectors.toList()))
+            .entrySet().stream()
+            .map(entry -> new OrganizationChartTeamDto(entry.getKey(), entry.getValue()))
+            .collect(Collectors.toList());
+    }
+
+    public void deleteAll() {
+        memberRepository.deleteAll();
+    }
+
+    public long count() {
+        return memberRepository.count();
+    }
+
+    public List<Member> findAll() {
+        return memberRepository.findAll();
+    }
 }

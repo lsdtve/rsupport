@@ -11,13 +11,16 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @Entity
 @Getter
+@EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
     @Id
@@ -25,9 +28,13 @@ public class Member {
     @Column(name = "member_id")
     private Long id;
 
-    private String originalName;
+    @NotNull
     private String name;
+
+    @Column(unique = true)
     private String number;
+
+    @Column(unique = true)
     private String phone;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
@@ -36,12 +43,12 @@ public class Member {
 
     private String grade;
 
+    @NotNull
     @Enumerated(value = EnumType.STRING)
     private Position position;
 
     @Builder
-    public Member(String originalName, String name, String number, String phone, Team team, String grade, Position position) {
-        this.originalName = originalName;
+    public Member(String name, String number, String phone, Team team, String grade, Position position) {
         this.name = name;
         this.number = number;
         this.phone = phone;

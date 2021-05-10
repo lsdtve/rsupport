@@ -11,9 +11,21 @@ public class TeamService {
 
     private final TeamRepository teamRepository;
 
-    public Team findTeamOrElseNewTeam(String teamName) {
+    public Team save(Team team) {
+        return teamRepository.save(team);
+    }
+
+    public Team findTeamOrElseSave(String teamName) {
         return teamRepository.findByName(teamName).orElseGet(() ->
-                Team.builder().name(teamName).build()
+                teamRepository.save(Team.builder().name(teamName).build())
             );
+    }
+
+    public void deleteAll() {
+        teamRepository.deleteAll();
+    }
+
+    public long count() {
+        return teamRepository.count();
     }
 }

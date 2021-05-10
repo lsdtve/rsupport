@@ -1,5 +1,6 @@
 package rsupport.addressbook.controller;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,8 @@ class OrganizationChartControllerTest {
     private MockMvc mockMvc;
 
     @Test
-    void 조직도_확인() throws Exception {
+    @DisplayName("조직도 확인")
+    void getOrganizationChart() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get(UrlConstants.ORGANIZATION_CHART))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))

@@ -1,5 +1,6 @@
 package rsupport.addressbook.controller;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +22,8 @@ class AddressBookSynchronizeControllerTest {
     @Autowired private MockMvc mockMvc;
 
     @Test
-    void 주소록_동기화() throws Exception {
+    @DisplayName("주소록 동기화")
+    void sync() throws Exception {
         mockMvc.perform(MockMvcRequestBuilders.get(UrlConstants.SYNCHRONIZE))
             .andExpect(MockMvcResultMatchers.status().isOk());
     }

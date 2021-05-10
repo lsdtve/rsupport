@@ -1,9 +1,10 @@
 package rsupport.addressbook.util;
 
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.fail;
 
 import java.util.stream.Stream;
+import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,20 +21,21 @@ class FileUtilsTest {
     @Autowired private PropertyUtils propertyUtils;
 
     @Test
-    void csv_파일읽기() {
+    @DisplayName("csv 파일 읽기")
+    void readFile() {
         //given
 
         //when
         Stream<String> result = FileUtils.readCsvFile(propertyUtils.getAddressbookFilePath());
 
         //then
-        if (result==null) {
-            fail();
-        }
+        Assertions.assertThat(result)
+            .isNotEmpty();
     }
 
     @Test
-    void csv_파일_notFound() {
+    @DisplayName("csv 파일 예외처리")
+    void readFileException() {
         //given
 
         //when

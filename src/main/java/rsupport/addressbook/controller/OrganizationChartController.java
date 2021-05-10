@@ -1,28 +1,27 @@
 package rsupport.addressbook.controller;
 
-import java.util.HashMap;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import rsupport.addressbook.constant.UrlConstants;
-import rsupport.addressbook.service.OrganizationChartService;
+import rsupport.addressbook.response.OrganizationChartResponse;
+import rsupport.addressbook.service.MemberService;
 
 @RestController
 @RequiredArgsConstructor
 public class OrganizationChartController {
 
-    private final OrganizationChartService origanizationService;
+    private final MemberService memberservice;
 
     @GetMapping(value = UrlConstants.ORGANIZATION_CHART)
-    public ResponseEntity<Map<String, Object>> getOrganizationChart(
+    public ResponseEntity<OrganizationChartResponse> getOrganizationChart(
         @RequestParam(value = "searchWord", required = false) String searchWord) {
-        Map<String, Object> data = new HashMap<>();
+        OrganizationChartResponse response = new OrganizationChartResponse();
 
-        data.put("teamList", origanizationService.findOrganizationChart(searchWord));
+        response.setTeamList(memberservice.getOrganizationChart(searchWord));
 
-        return ResponseEntity.ok().body(data);
+        return ResponseEntity.ok().body(response);
     }
 }
