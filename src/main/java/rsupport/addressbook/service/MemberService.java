@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import rsupport.addressbook.domain.Member;
 import rsupport.addressbook.dto.OrganizationChartTeamDto;
 import rsupport.addressbook.repository.MemberRepository;
@@ -30,7 +29,6 @@ public class MemberService {
         return String.format("%s(%c)", name, sameNameCount+'A');
     }
 
-    @Transactional(readOnly = true)
     public List<OrganizationChartTeamDto> getOrganizationChart(String searchWord) {
 
         return memberRepository.findAllBySearchWord(searchWord).stream()
